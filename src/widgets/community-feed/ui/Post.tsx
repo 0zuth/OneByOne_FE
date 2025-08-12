@@ -33,10 +33,10 @@ export default function Post({
   };
 
   return (
-    <article className="flex flex-col gap-7 bg-white px-5 pb-4 pt-7">
+    <article className="flex flex-col gap-6 bg-white px-5 pb-4 pt-7">
       <section className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
-          <Badge>{getCategoryLabel(post.categoryName)}</Badge>
+          <Badge size="lg">{getCategoryLabel(post.categoryName)}</Badge>
         </div>
         <div className="flex justify-between">
           <div className="flex items-center gap-2.5">
@@ -72,7 +72,7 @@ export default function Post({
       <section className="flex flex-col gap-4 text-primary-dark01">
         <div className="flex flex-col gap-2.5">
           <h2 className="font-semibold">{post.title}</h2>
-          <p className="text-sm">{post.content}</p>
+          <p className="whitespace-pre-wrap text-sm">{post.content}</p>
         </div>
         <ul className="flex justify-end gap-1 text-xxs text-primary-normal03">
           <li>{formatDate(post.createdAt)}</li>

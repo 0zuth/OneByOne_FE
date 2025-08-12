@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import NoticeCard from "@/components/home/NoticeCard";
-import PopularPostsPreview from "@/components/home/PopularPostsPreview";
-import ShortCutList from "@/components/home/ShortCutList";
-import { IMAGE_PATHS } from "@/constants/assets-path";
-import { URL_PATHS } from "@/constants/url-path";
+import { IMAGE_PATHS } from "@/shared/constants/assets-path";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import NoticeCard from "@/widgets/home-dashboard/ui/NoticeCard";
+import PopularPostsPreview from "@/widgets/home-dashboard/ui/PopularPostsPreview";
+import ShortCutList from "@/widgets/shortcut-list";
 
 export default function HomePage() {
   return (
@@ -25,11 +25,11 @@ export default function HomePage() {
       <section className="flex flex-col gap-4">
         <NoticeCard />
         <Link
-          to={URL_PATHS.SCHOOL}
+          to={URL_PATHS.KINDERGARTEN}
           className="block overflow-hidden rounded-3xl"
         >
           <img
-            src={IMAGE_PATHS.BANNER.SCHOOL}
+            src={IMAGE_PATHS.BANNER.KINDERGARTEN}
             alt="유치원 찾기 배너"
             width={335}
             height={190}

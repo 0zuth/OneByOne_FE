@@ -1,10 +1,10 @@
 import { useAtomValue } from "jotai";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import MenuItem from "@/components/user/MenuItem";
-import { SVG_PATHS } from "@/constants/assets-path";
-import { URL_PATHS } from "@/constants/url-path";
-import { userAtom } from "@/stores/userStore";
+import { userAtom } from "@/entities/auth/model";
+import { SVG_PATHS } from "@/shared/constants/assets-path";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import MenuItem from "@/widgets/user-dashboard/ui/MenuItem";
 
 export default function InquiryPage() {
   const user = useAtomValue(userAtom);

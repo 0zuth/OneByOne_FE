@@ -1,7 +1,7 @@
-import PageLayout from "@/components/@shared/layout/page-layout";
-import { Switch } from "@/components/@shared/switch";
-import { URL_PATHS } from "@/constants/url-path";
-import { useAlarmSettings } from "@/hooks/useAlarmSettings";
+import { useAlarmSettings } from "@/entities/alarm/hooks/useAlarmSettings";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import { Switch } from "@/shared/ui/switch";
 
 export default function AlarmSettingPage() {
   const { alarmSettings, toggleSetting, isUpdating } = useAlarmSettings();

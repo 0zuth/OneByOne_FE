@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import LoadingSpinner from "@/components/@shared/loading/loading-spinner";
-import ShortCutOption from "@/components/home/ShortCutOption";
-import { shortcutOptions } from "@/constants/shortcutOptions";
-import { URL_PATHS } from "@/constants/url-path";
-import { useShortcuts } from "@/hooks/useShortcuts";
-import { useToast } from "@/hooks/useToast";
-import type { Shortcut } from "@/types/homeDTO";
+import type { Shortcut } from "@/entities/shortcuts/DTO.d";
+import { useShortcuts } from "@/entities/shortcuts/hooks/useShortcuts";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import { useToast } from "@/shared/hooks/useToast";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
+import { shortcutOptions } from "@/widgets/shortcut-list/lib/shortcutOptions";
+import ShortCutOption from "@/widgets/shortcut-list/ui/ShortCutOption";
 
 export default function ShortcutsEditorPage() {
   const { shortcuts: initialShortcuts, updateShortcuts } = useShortcuts();

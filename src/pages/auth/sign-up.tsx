@@ -1,23 +1,21 @@
 import { useNavigate } from "react-router-dom";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import AuthTextLinks from "@/components/sign-in/AuthTextLinks";
-import { EmailCertificationForm } from "@/components/sign-up/EmailCertificationForm";
-import { EmailForm, EmailFormValues } from "@/components/sign-up/EmailForm";
+import { SignUpRequest } from "@/entities/auth/DTO.d";
+import { useSignUp } from "@/entities/auth/hooks";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import useFormData from "@/shared/hooks/useFormdata";
+import { useStepNavigation } from "@/shared/hooks/useStepNavigation";
+import { useStepRenderer } from "@/shared/hooks/useStepRenderer";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import AuthStepper from "@/widgets/auth/ui/AuthStepper";
+import AuthTextLinks from "@/widgets/auth/ui/AuthTextLinks";
+import { EmailCertificationForm } from "@/widgets/auth/ui/EmailCertificationForm";
+import { EmailForm, EmailFormValues } from "@/widgets/auth/ui/EmailForm";
 import {
   PasswordForm,
   PasswordFormValues,
-} from "@/components/sign-up/PasswordForm";
-import {
-  UserInfoForm,
-  UserInfoFormValues,
-} from "@/components/sign-up/UserInfoForm";
-import { URL_PATHS } from "@/constants/url-path";
-import { useSignUp } from "@/hooks/useAuth";
-import { useFormData } from "@/hooks/useFormData";
-import { useStepNavigation } from "@/hooks/useStepNavigation";
-import { useStepRenderer } from "@/hooks/useStepRenderer";
-import { SignUpRequest } from "@/types/authDTO";
+} from "@/widgets/auth/ui/PasswordForm";
+import { UserInfoForm, UserInfoFormValues } from "@/widgets/auth/ui/SignUpForm";
 
 type SignUpFormData = {
   email: string;
@@ -52,7 +50,7 @@ const SIGNUP_STEP_CONFIG = {
   },
 };
 
-export default function SignUp() {
+export default function SignUpPage() {
   const navigate = useNavigate();
   const { mutate: signUpMutate, isPending } = useSignUp();
   const {
@@ -113,6 +111,10 @@ export default function SignUp() {
     4: <UserInfoForm onSubmit={stepHandlers[4]} isLoading={isPending} />,
   };
 
+  const title = getStepTitle(step, formData);
+  const subtitle = getStepSubtitle(step, formData);
+  const content = renderStep(step, stepComponents);
+
   return (
     <PageLayout
       title="원바원 | 회원가입"
@@ -125,13 +127,7 @@ export default function SignUp() {
       hasBackButton={true}
       onBackButtonClick={handleBackNavigation}
     >
-      <section className="text-center text-lg">
-        <h1>{getStepTitle(step, formData)}</h1>
-        {getStepSubtitle(step, formData)}
-      </section>
-      <section className="flex flex-col gap-9 px-5">
-        {renderStep(step, stepComponents)}
-      </section>
+      <AuthStepper title={title} subtitle={subtitle} content={content} />
       {shouldShowSignInLink(step) && <AuthTextLinks types={["로그인"]} />}
     </PageLayout>
   );

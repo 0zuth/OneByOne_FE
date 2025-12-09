@@ -82,14 +82,14 @@ export const REVIEW_COMMENT_MAX_LENGTH = 1000;
 const REVIEW_ONE_LINE_MAX_LENGTH = 200;
 
 const REVIEW_COMMENT_PATTERN =
-  /^(?!.*\s{2,})(?!.*[ㄱ-ㅎㅏ-ㅣ])(?!.*(.)\1{4,})(?!.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{5,}).+$/;
+  /^(?!^[ㄱ-ㅎㅏ-ㅣ\s]+$)(?!.*(\S)\1{4,})(?!.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{5,})[\s\S]+$/;
 
 const REVIEW_ERROR_MSG = {
   MIN: `최소 ${REVIEW_COMMENT_MIN_LENGTH}자 이상 입력해주세요`,
   MAX: `${REVIEW_COMMENT_MAX_LENGTH}자 이내로 입력해주세요`,
   ONE_LINE_MAX: `${REVIEW_ONE_LINE_MAX_LENGTH}자 이내로 입력해주세요`,
   INVALID:
-    "연속 공백, 단독 자모, 5자 이상 동일한 문자 반복은 사용할 수 없습니다.",
+    "자모만으로 구성하거나 5자 이상 동일한 문자 반복은 사용할 수 없습니다.",
   SCORE: "점수를 선택해주세요",
 } as const;
 
@@ -99,7 +99,11 @@ const createReviewCommentSchema = (maxLength: number, maxMessage: string) =>
     .string()
     .min(REVIEW_COMMENT_MIN_LENGTH, REVIEW_ERROR_MSG.MIN)
     .max(maxLength, maxMessage)
-    .regex(REVIEW_COMMENT_PATTERN, REVIEW_ERROR_MSG.INVALID);
+    .regex(REVIEW_COMMENT_PATTERN, REVIEW_ERROR_MSG.INVALID)
+    .refine(
+      (val) => val.trim().length >= REVIEW_COMMENT_MIN_LENGTH,
+      REVIEW_ERROR_MSG.MIN
+    );
 
 const reviewCommentSchema = createReviewCommentSchema(
   REVIEW_COMMENT_MAX_LENGTH,

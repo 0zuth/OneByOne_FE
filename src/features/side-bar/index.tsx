@@ -48,7 +48,7 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
 
   return (
     <aside
-      className="fixed inset-0 z-[60] mx-auto flex w-full min-w-80 max-w-3xl flex-col bg-primary-foreground"
+      className="fixed inset-0 z-[60] mx-auto flex w-full min-w-80 max-w-3xl flex-col overflow-y-auto bg-primary-foreground"
       role="dialog"
       aria-modal="true"
       aria-label="원바원 메뉴 목록"
@@ -100,7 +100,7 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
         </div>
       </header>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 pb-5">
         {/* 공지사항 & 바로가기 */}
         <section className="mx-5 flex flex-col gap-3">
           <NoticeCard />

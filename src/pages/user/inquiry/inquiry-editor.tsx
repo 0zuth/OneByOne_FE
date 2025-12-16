@@ -3,21 +3,15 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import Button from "@/components/@shared/buttons/base-button";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/@shared/form";
-import Textarea from "@/components/@shared/form/textarea";
-import PageLayout from "@/components/@shared/layout/page-layout";
-import { INQUIRY_TITLE_LABEL } from "@/constants/inquiry";
-import { URL_PATHS } from "@/constants/url-path";
-import { useCreateInquiry } from "@/hooks/useInquiry";
-import type { CreateInquiryRequest } from "@/types/inquiryDTO";
+import type { CreateInquiryRequest } from "@/entities/inquiry/DTO";
+import { useCreateInquiry } from "@/entities/inquiry/hooks";
+import TextareaField from "@/features/form/ui/fields/TextareaField";
+import ToggleChoicesField from "@/features/form/ui/fields/ToggleChoicesField";
+import SubmitButton from "@/features/form/ui/SubmitButton";
+import { INQUIRY_TITLE_LABEL } from "@/shared/constants/inquiry";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import { Form } from "@/shared/ui/form";
+import PageLayout from "@/shared/ui/layout/page-layout";
 
 const inquirySchema = z.object({
   title: z.enum(["GENERAL", "REPORT", "SERVICE", "ETC"]),
@@ -58,6 +52,7 @@ export default function InquiryEditorPage() {
       currentPath={URL_PATHS.INQUIRY}
       wrapperBg="white"
       mainClassName="px-5 py-8 mt-14"
+      isGlobalNavBar={false}
     >
       <section className="flex flex-col gap-7">
         <Form {...form}>
@@ -65,71 +60,30 @@ export default function InquiryEditorPage() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-7"
           >
-            <FormField
+            <ToggleChoicesField
               control={form.control}
               name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-primary-dark01">
-                    문의 유형
-                  </FormLabel>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {Object.entries(INQUIRY_TITLE_LABEL).map(([key, label]) => (
-                      <Button
-                        key={key}
-                        variant={field.value === key ? "secondary" : "default"}
-                        size="lg"
-                        font="md"
-                        shape="full"
-                        type="button"
-                        onClick={() => field.onChange(key)}
-                        className="font-normal"
-                      >
-                        {label}
-                      </Button>
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
+              label="문의 유형"
+              options={Object.entries(INQUIRY_TITLE_LABEL).map(
+                ([value, label]) => ({
+                  label,
+                  value,
+                })
               )}
             />
-            <FormField
+            <TextareaField
               control={form.control}
               name="content"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <div className="flex items-center justify-between">
-                    <FormLabel className="text-base font-semibold text-primary-dark01">
-                      내용
-                    </FormLabel>
-                    <span className="text-xs font-semibold text-primary-normal02">
-                      *200자 이내
-                    </span>
-                  </div>
-                  <FormControl>
-                    <Textarea
-                      font="md"
-                      padding="sm"
-                      placeholder="문의 내용을 자유롭게 작성해주세요"
-                      {...field}
-                      value={field.value || ""}
-                      onChange={(e) => field.onChange(e.target.value)}
-                      onBlur={field.onBlur}
-                      error={!!fieldState.error}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="내용"
+              placeholder="문의 내용을 자유롭게 작성해주세요"
+              showCounter
+              maxLength={200}
             />
-            <Button
-              variant="secondary"
-              type="submit"
-              className="flex-1"
+            <SubmitButton
+              label="문의하기"
               disabled={!form.formState.isValid || isPending}
-            >
-              문의하기
-            </Button>
+              isLoading={isPending}
+            />
           </form>
         </Form>
       </section>

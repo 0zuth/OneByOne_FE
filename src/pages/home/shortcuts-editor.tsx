@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import LoadingSpinner from "@/components/@shared/loading/loading-spinner";
-import ShortCutOption from "@/components/home/ShortCutOption";
-import { shortcutOptions } from "@/constants/shortcutOptions";
-import { URL_PATHS } from "@/constants/url-path";
-import { useShortcuts } from "@/hooks/useShortcuts";
-import { useToast } from "@/hooks/useToast";
-import type { Shortcut } from "@/types/homeDTO";
+import type { Shortcut } from "@/entities/shortcuts/DTO.d";
+import { useShortcuts } from "@/entities/shortcuts/hooks/useShortcuts";
+import {
+  getReturnUrl,
+  setShouldOpenSidebar,
+} from "@/features/side-bar/lib/sidebarStorage";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import { useToast } from "@/shared/hooks/useToast";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
+import { shortcutOptions } from "@/widgets/shortcut-list/lib/shortcutOptions";
+import ShortCutOption from "@/widgets/shortcut-list/ui/ShortCutOption";
 
 export default function ShortcutsEditorPage() {
   const { shortcuts: initialShortcuts, updateShortcuts } = useShortcuts();
@@ -48,7 +52,11 @@ export default function ShortcutsEditorPage() {
         toast({
           title: "바로가기가 저장되었습니다",
         });
-        navigate(URL_PATHS.HOME);
+
+        // 사이드바 자동 열기, 이전 페이지로 이동
+        const returnUrl = getReturnUrl() || URL_PATHS.HOME;
+        setShouldOpenSidebar(true);
+        navigate(returnUrl);
       }
     } catch (err) {
       toast({

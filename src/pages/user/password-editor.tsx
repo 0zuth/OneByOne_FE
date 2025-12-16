@@ -2,7 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@/components/@shared/buttons/base-button";
+import { useUpdatePassword } from "@/entities/user/hooks";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import Button from "@/shared/ui/buttons/base-button";
 import {
   Form,
   FormControl,
@@ -10,12 +12,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/@shared/form";
-import ToggleInput from "@/components/@shared/form/toggle-input";
-import PageLayout from "@/components/@shared/layout/page-layout";
-import { URL_PATHS } from "@/constants/url-path";
-import { useUpdatePassword } from "@/hooks/useAuth";
-import { passwordChangeSchema } from "@/utils/validationSchemas";
+} from "@/shared/ui/form";
+import ToggleInput from "@/shared/ui/form/toggle-input";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import { passwordChangeSchema } from "@/shared/utils/validationSchemas";
 
 type PasswordFormData = z.infer<typeof passwordChangeSchema>;
 
@@ -50,6 +50,7 @@ export default function PasswordEditorPage() {
       currentPath={URL_PATHS.USER}
       wrapperBg="white"
       mainClassName="flex flex-col px-5 mt-14"
+      isGlobalNavBar={false}
     >
       <Form {...form}>
         <form

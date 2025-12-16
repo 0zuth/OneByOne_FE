@@ -1,42 +1,20 @@
 import { Suspense, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import PostButton from "@/components/@shared/buttons/post-button";
-import PageLayout from "@/components/@shared/layout/page-layout";
-import LoadingSpinner from "@/components/@shared/loading/loading-spinner";
-import NavBar from "@/components/@shared/nav/nav-bar";
-import CategorySelector from "@/components/community/CategorySelector";
-import PopularPostList from "@/components/community/PopularPostList";
-import PostList from "@/components/community/PostList";
-import { SVG_PATHS } from "@/constants/assets-path";
+import NavBar from "@/features/nav/ui/NavBar";
+import { SVG_PATHS } from "@/shared/constants/assets-path";
+import PostButton from "@/shared/ui/buttons/post-button";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
+import { setCommunityState } from "@/shared/utils/lastVisitedPathUtils";
 import {
+  CATEGORY_ICONS,
   PROSPECTIVE_TEACHER_CATEGORIES,
   TEACHER_CATEGORIES,
-} from "@/constants/community";
-import { setCommunityState } from "@/utils/lastVisitedPathUtils";
-
-const communityTypeOptions = [
-  {
-    href: "/community?type=teacher",
-    label: "교사",
-    icon: {
-      path: SVG_PATHS.CHARACTER.chicken,
-      alt: "교사 아이콘",
-      width: 32,
-      height: 32,
-    },
-  },
-  {
-    href: "/community?type=pre-teacher",
-    label: "예비교사",
-    icon: {
-      path: SVG_PATHS.CHARACTER.chick,
-      alt: "예비교사 아이콘",
-      width: 32,
-      height: 32,
-    },
-  },
-];
+} from "@/widgets/community-feed/lib/category";
+import PostList from "@/widgets/community-feed/post-list";
+import PopularPostList from "@/widgets/community-feed/post-list/ui/PopularPostList";
+import CategorySelector from "@/widgets/community-feed/ui/CategorySelector";
 
 export default function CommunityPage() {
   const [searchParams] = useSearchParams();
@@ -75,7 +53,7 @@ export default function CommunityPage() {
       hasBackButton={false}
     >
       <NavBar
-        options={communityTypeOptions}
+        options={CATEGORY_ICONS}
         currentPath={`/community?type=${communityType}&category=${categoryName}`}
       />
 
@@ -87,7 +65,7 @@ export default function CommunityPage() {
         {categoryName === "top10" ? (
           <section className="mb-12 flex flex-col gap-9 pb-1.5">
             <div className="flex items-center gap-2">
-              <img src={SVG_PATHS.CHART} alt="그래프" width="20" height="18" />
+              <img src={SVG_PATHS.KINDERGARTEN_INFO.CHART} alt="그래프" width="20" height="18" />
               <h2 className="text-lg font-semibold">실시간 인기 게시글</h2>
             </div>
             <Suspense fallback={<LoadingSpinner type="element" />}>

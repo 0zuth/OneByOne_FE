@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 
-import Empty from "@/components/@shared/layout/empty";
-import PageLayout from "@/components/@shared/layout/page-layout";
-import LoadingSpinner from "@/components/@shared/loading/loading-spinner";
-import NoticeDetail from "@/components/notice/NoticeDetail";
-import { URL_PATHS } from "@/constants/url-path";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import Empty from "@/shared/ui/layout/empty";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
+import NoticeDetail from "@/widgets/notice-list/ui/NoticeDetail";
 
 export default function NoticeDetailPage() {
   const { id } = useParams();
@@ -23,6 +23,7 @@ export default function NoticeDetailPage() {
       hasBackButton={true}
       wrapperBg="white"
       mainClassName="px-5 py-5 mt-14 mb-14"
+      isGlobalNavBar={false}
     >
       <Suspense fallback={<LoadingSpinner />}>
         <NoticeDetail id={Number(id)} />

@@ -1,10 +1,10 @@
 import { useAtomValue } from "jotai";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import MenuItem from "@/components/user/MenuItem";
-import { SVG_PATHS } from "@/constants/assets-path";
-import { URL_PATHS } from "@/constants/url-path";
-import { userAtom } from "@/stores/userStore";
+import { userAtom } from "@/entities/auth/model";
+import { SVG_PATHS } from "@/shared/constants/assets-path";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import MenuItem from "@/widgets/user-dashboard/ui/MenuItem";
 
 export default function InquiryPage() {
   const user = useAtomValue(userAtom);
@@ -17,6 +17,7 @@ export default function InquiryPage() {
       currentPath={URL_PATHS.USER}
       hasBackButton={true}
       mainBg="white"
+      isGlobalNavBar={false}
     >
       <section className="flex flex-col gap-4 px-5 pt-5">
         <menu className="flex flex-col gap-6 font-bold text-primary-dark01">
@@ -29,7 +30,7 @@ export default function InquiryPage() {
             />
           )}
           <MenuItem
-            iconPath={SVG_PATHS.LOGOUT}
+            iconPath={SVG_PATHS.USER_MENU.LOGOUT}
             to={URL_PATHS.INQUIRY_EDITOR}
             iconAlt="유저 아이콘"
             label="1:1 문의하기"

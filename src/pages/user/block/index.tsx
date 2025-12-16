@@ -1,13 +1,12 @@
-import Empty from "@/components/@shared/layout/empty";
-import Error from "@/components/@shared/layout/error";
-import PageLayout from "@/components/@shared/layout/page-layout";
-import LoadingSpinner from "@/components/@shared/loading/loading-spinner";
-import BlockedUserList from "@/components/user/BlockedUserList";
-import { URL_PATHS } from "@/constants/url-path";
-import { useBlock } from "@/hooks/useBlock";
+import { useGetBlockedUsers } from "@/entities/block/hooks";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import Empty from "@/shared/ui/layout/empty";
+import Error from "@/shared/ui/layout/error";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
+import BlockedUserList from "@/widgets/user-dashboard/block-list";
 
 export default function BlockPage() {
-  const { useGetBlockedUsers } = useBlock();
   const { data, isLoading, error } = useGetBlockedUsers();
 
   const blockedUsers = data?.data || [];
@@ -19,6 +18,7 @@ export default function BlockPage() {
       headerTitle="차단 설정"
       currentPath={URL_PATHS.USER}
       hasBackButton={true}
+      isGlobalNavBar={false}
     >
       {isLoading ? (
         <LoadingSpinner />

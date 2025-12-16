@@ -1,14 +1,14 @@
 import { useAtom } from "jotai";
 import { Link } from "react-router-dom";
 
-import PageLayout from "@/components/@shared/layout/page-layout";
-import { Switch } from "@/components/@shared/switch";
-import ToolTip from "@/components/@shared/tool-tip";
-import ProfileDetail from "@/components/user/ProfileDetail";
-import ProfileImage from "@/components/user/ProfileImage";
-import { IMAGE_PATHS } from "@/constants/assets-path";
-import { URL_PATHS } from "@/constants/url-path";
-import { userAtom } from "@/stores/userStore";
+import { userAtom } from "@/entities/auth/model";
+import ProfileDetail from "@/features/user-profile/ProfileDetail";
+import ProfileImage from "@/features/user-profile/ProfileImage";
+import { IMAGE_PATHS } from "@/shared/constants/assets-path";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import { Switch } from "@/shared/ui/switch";
+import ToolTip from "@/shared/ui/tool-tip";
 
 export default function ProfilePage() {
   const [user] = useAtom(userAtom);
@@ -21,6 +21,7 @@ export default function ProfilePage() {
       currentPath={URL_PATHS.USER}
       wrapperBg="white"
       mainClassName="flex flex-col gap-5 pb-5 mb-24 mt-14 px-5"
+      isGlobalNavBar={false}
     >
       <section className="flex flex-col items-center gap-2.5 py-5">
         <div className="flex w-full items-center justify-between">

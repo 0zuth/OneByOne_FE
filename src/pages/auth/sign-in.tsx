@@ -2,23 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@/components/@shared/buttons/base-button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/@shared/form";
-import Input from "@/components/@shared/form/input";
-import ToggleInput from "@/components/@shared/form/toggle-input";
-import PageLayout from "@/components/@shared/layout/page-layout";
-import AuthTextLinks from "@/components/sign-in/AuthTextLinks";
-import { URL_PATHS } from "@/constants/url-path";
-import { useSignIn } from "@/hooks/useAuth";
-import { getCookie } from "@/services/authService";
-import { SignInRequest } from "@/types/authDTO";
+import { getCookie } from "@/entities/auth/api";
+import { SignInRequest } from "@/entities/auth/DTO.d";
+import { useSignIn } from "@/entities/auth/hooks";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import AuthTextLinks from "@/widgets/auth/ui/AuthTextLinks";
+import SignInForm from "@/widgets/auth/ui/SignInForm";
 
 const signInSchema = z.object({
   email: z
@@ -33,7 +23,7 @@ const signInSchema = z.object({
 
 type SignInFormValues = z.infer<typeof signInSchema>;
 
-export default function SignIn() {
+export default function SignInPage() {
   const { mutate: signInMutate, isPending } = useSignIn();
 
   const form = useForm<SignInFormValues>({
@@ -66,62 +56,7 @@ export default function SignIn() {
     >
       <h1 className="text-center text-lg">이메일로 로그인</h1>
       <section className="flex flex-col gap-9 px-5">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-6"
-          >
-            <div className="flex flex-col gap-3.5">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormLabel>이메일</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="이메일을 입력해주세요."
-                        error={!!fieldState.error}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormLabel>비밀번호</FormLabel>
-                    <FormControl>
-                      <ToggleInput
-                        placeholder="비밀번호를 입력해주세요."
-                        error={!!fieldState.error}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button
-              variant="secondary"
-              type="submit"
-              size="lg"
-              font="md"
-              disabled={
-                isPending ||
-                !form.formState.isValid ||
-                Object.keys(form.formState.errors).length > 0
-              }
-            >
-              로그인
-            </Button>
-          </form>
-        </Form>
+        <SignInForm form={form} onSubmit={onSubmit} isPending={isPending} />
       </section>
       <AuthTextLinks types={["비밀번호 찾기", "회원가입"]} />
     </PageLayout>

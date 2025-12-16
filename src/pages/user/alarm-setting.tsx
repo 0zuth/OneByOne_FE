@@ -1,7 +1,7 @@
-import PageLayout from "@/components/@shared/layout/page-layout";
-import { Switch } from "@/components/@shared/switch";
-import { URL_PATHS } from "@/constants/url-path";
-import { useAlarmSettings } from "@/hooks/useAlarmSettings";
+import { useAlarmSettings } from "@/entities/alarm/hooks/useAlarmSettings";
+import { URL_PATHS } from "@/shared/constants/url-path";
+import PageLayout from "@/shared/ui/layout/page-layout";
+import { Switch } from "@/shared/ui/switch";
 
 export default function AlarmSettingPage() {
   const { alarmSettings, toggleSetting, isUpdating } = useAlarmSettings();
@@ -27,6 +27,7 @@ export default function AlarmSettingPage() {
       description="알림 설정"
       headerTitle="알림 설정"
       currentPath={URL_PATHS.USER}
+      isGlobalNavBar={false}
     >
       <section className="flex flex-col gap-3 px-5 pt-5">
         <h1 className="font-bold text-primary-dark01">알림</h1>

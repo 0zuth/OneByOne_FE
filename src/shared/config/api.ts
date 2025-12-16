@@ -5,6 +5,10 @@ export const API_PATHS = {
     SIMPLE: (id: number) => `/kindergarten/${id}/simple`,
     DETAIL: (id: number) => `/kindergarten/${id}`,
     NEARBY: "/kindergarten/nearby",
+    REGION: "/kindergarten/region",
+  },
+  ADDRESS: {
+    BASE: "/address",
   },
   INTERNSHIP: {
     BASE: "/internship/review", // 실습 리뷰 생성, 수정

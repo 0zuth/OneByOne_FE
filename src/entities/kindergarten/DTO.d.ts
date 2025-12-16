@@ -83,3 +83,29 @@ export interface PageResponse<T> {
 }
 
 export type KindergartenSearchResponse = PageResponse<Kindergarten>;
+
+// 지역별 유치원 조회
+export interface RegionKindergartensParams {
+  regionId?: number;
+  subRegionId?: number;
+}
+
+export interface RegionKindergartensResponse {
+  success: boolean;
+  data: Kindergarten[];
+  message: string;
+}
+
+// 지역 조회
+export interface SubRegion {
+  subRegionId: number;
+  name: string;
+}
+
+export interface Region {
+  regionId: number;
+  regionName: string;
+  subRegions: SubRegion[];
+}
+
+export type AddressRegionsResponse = Region[];

@@ -9,6 +9,52 @@ import { URL_PATHS } from "@/shared/constants/url-path";
 import PageLayout from "@/shared/ui/layout/page-layout";
 import MenuItem from "@/widgets/user-dashboard/ui/MenuItem";
 
+// ------------------------------------------------------------------------------
+
+const SETTING_MENU = [
+  {
+    iconPath: SVG_PATHS.USER_MENU.SETTING,
+    iconAlt: "설정 아이콘",
+    to: URL_PATHS.USER_ACCOUNT_SETTING,
+    label: "계정 설정",
+  },
+  {
+    iconPath: SVG_PATHS.ALARM,
+    iconAlt: "알림 아이콘",
+    to: URL_PATHS.ALARM_SETTING,
+    label: "알림 설정",
+  },
+  {
+    iconPath: SVG_PATHS.USER_MENU.LEAVE,
+    iconAlt: "차단 아이콘",
+    to: URL_PATHS.BLOCK,
+    label: "차단 설정",
+  },
+];
+
+const SERVICE_MENU = [
+  {
+    iconPath: SVG_PATHS.USER_MENU.DOCUMENT,
+    iconAlt: "문서 아이콘",
+    to: URL_PATHS.NOTICE,
+    label: "공지사항",
+  },
+  {
+    iconPath: SVG_PATHS.USER_MENU.INQUIRY,
+    iconAlt: "문의 아이콘",
+    to: URL_PATHS.INQUIRY,
+    label: "문의",
+  },
+  {
+    iconPath: SVG_PATHS.USER_MENU.POLICY,
+    iconAlt: "정책 아이콘",
+    to: "https://abounding-leather-799.notion.site/229a1b804ebf80d9968addf0c2733f36?source=copy_link",
+    label: "운영 정책",
+  },
+];
+
+// ------------------------------------------------------------------------------
+
 export default function User() {
   const [user] = useAtom(userAtom);
 
@@ -42,6 +88,7 @@ export default function User() {
             />
           </Link>
         </div>
+        {/* TODO: 교사 인증 기능 추가 */}
         {/* <CertificationBanner /> */}
       </section>
 
@@ -49,60 +96,18 @@ export default function User() {
         <section className="flex flex-col gap-4 bg-white p-5 font-bold">
           <h2 className="text-primary-dark02">내 설정</h2>
           <menu className="flex flex-col gap-6 text-primary-dark01">
-            <MenuItem
-              iconPath={SVG_PATHS.POST.EDIT}
-              iconAlt="게시물 관리 아이콘"
-              to={URL_PATHS.USER_POST}
-              label="작성한 리뷰 관리"
-            />
-            <MenuItem
-              iconPath={SVG_PATHS.BOOKMARKS}
-              iconAlt="즐겨찾기 목록 아이콘"
-              to={URL_PATHS.USER_FAVORITES}
-              label="즐겨찾기"
-            />
-            <MenuItem
-              iconPath={SVG_PATHS.USER_MENU.SETTING}
-              iconAlt="설정 아이콘"
-              to={URL_PATHS.USER_ACCOUNT_SETTING}
-              label="계정 설정"
-            />
-            <MenuItem
-              iconPath={SVG_PATHS.ALARM}
-              iconAlt="알림 아이콘"
-              to={URL_PATHS.ALARM_SETTING}
-              label="알림 설정"
-            />
-            <MenuItem
-              iconPath={SVG_PATHS.USER_MENU.LEAVE}
-              iconAlt="차단 아이콘"
-              to={URL_PATHS.BLOCK}
-              label="차단 설정"
-            />
+            {SETTING_MENU.map((item) => (
+              <MenuItem key={item.to} {...item} />
+            ))}
           </menu>
         </section>
 
         <section className="flex flex-col gap-4 bg-white p-5 font-bold">
           <h2 className="text-primary-dark02">서비스 안내 · 문의</h2>
           <menu className="flex flex-col gap-6 text-primary-dark01">
-            <MenuItem
-              iconPath={SVG_PATHS.USER_MENU.DOCUMENT}
-              iconAlt="문서 아이콘"
-              to={URL_PATHS.NOTICE}
-              label="공지사항"
-            />
-            <MenuItem
-              iconPath={SVG_PATHS.USER_MENU.INQUIRY}
-              iconAlt="설정 아이콘"
-              to={URL_PATHS.INQUIRY}
-              label="문의"
-            />
-            <MenuItem
-              iconPath={SVG_PATHS.USER_MENU.POLICY}
-              iconAlt="설정 아이콘"
-              to="https://abounding-leather-799.notion.site/229a1b804ebf80d9968addf0c2733f36?source=copy_link"
-              label="운영 정책"
-            />
+            {SERVICE_MENU.map((item) => (
+              <MenuItem key={item.to} {...item} />
+            ))}
           </menu>
         </section>
       </div>

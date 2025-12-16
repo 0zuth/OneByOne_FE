@@ -9,7 +9,6 @@ import PageLayout from "@/shared/ui/layout/page-layout";
 import NoticeCard from "@/widgets/home-dashboard/ui/NoticeCard";
 import PopularPostsPreview from "@/widgets/home-dashboard/ui/PopularPostsPreview";
 import RecentReviewPreview from "@/widgets/home-dashboard/ui/RecentReviewPreview";
-import ShortCutList from "@/widgets/shortcut-list";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -25,16 +24,15 @@ export default function HomePage() {
       currentPath={URL_PATHS.HOME}
       hasBackButton={false}
       wrapperBg="white"
-      mainClassName="flex flex-col gap-9 px-5 py-4 mt-14 mb-24"
+      mainClassName="flex flex-col gap-6 py-4 mt-14 mb-24"
       showAlarmButton={true}
     >
-      <section className="flex flex-col gap-4">
+      <section className="mx-5 flex flex-col gap-4">
         <NoticeCard />
         <HomeCarousel />
       </section>
-      <ShortCutList />
 
-      <section className="flex flex-col gap-2.5">
+      <section className="mx-5 flex flex-col gap-2.5">
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-bold text-primary-dark02">실시간 리뷰</h1>
           <Toggle
@@ -52,7 +50,7 @@ export default function HomePage() {
         </QueryErrorBoundary>
       </section>
 
-      <section>
+      <section className="mx-5">
         <img
           src={IMAGE_PATHS.BANNER.COMMUNITY}
           alt="리뷰 배너"
@@ -62,7 +60,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section className="flex flex-col gap-2.5">
+      <section className="mx-5 flex flex-col gap-2.5">
         <h1 className="text-lg font-bold text-primary-dark02">인기 게시글</h1>
         <QueryErrorBoundary className="rounded-lg border border-primary-light02">
           <PopularPostsPreview />

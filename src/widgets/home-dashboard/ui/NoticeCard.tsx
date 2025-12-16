@@ -9,7 +9,7 @@ export default function NoticeCard() {
 
   return (
     <Link to={URL_PATHS.NOTICE}>
-      <div className="flex gap-2 rounded-lg border border-primary-normal01 p-2.5">
+      <div className="flex gap-2 rounded-lg border border-primary-normal01 bg-white p-2.5">
         <img
           src={SVG_PATHS.USER_MENU.NOTICE}
           alt="공지사항 아이콘"

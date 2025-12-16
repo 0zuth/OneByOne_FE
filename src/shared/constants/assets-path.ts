@@ -34,8 +34,10 @@ import error from "@/app/assets/icons/error.svg";
 import eyeOff from "@/app/assets/icons/eye-off.svg";
 import eyeOn from "@/app/assets/icons/eye-on.svg";
 import favicon from "@/app/assets/icons/favicon.svg";
+import hamburger from "@/app/assets/icons/hamburger.svg";
 import homeActive from "@/app/assets/icons/home-active.svg";
 import homeInactive from "@/app/assets/icons/home-inactive.svg";
+import home from "@/app/assets/icons/home.svg";
 import homepage from "@/app/assets/icons/homepage.svg";
 import inquiry from "@/app/assets/icons/inquiry.svg";
 import kakao from "@/app/assets/icons/kakao.svg";
@@ -65,8 +67,16 @@ import reviewInactive from "@/app/assets/icons/review-inactive.svg";
 import search from "@/app/assets/icons/search.svg";
 import setting from "@/app/assets/icons/setting.svg";
 import share from "@/app/assets/icons/share.svg";
-import shortcutCommunity from "@/app/assets/icons/shortcut-post-community.svg";
-import shortcutKindergarten from "@/app/assets/icons/shortcut-search-kindergarten.svg";
+import shortcutBookmark from "@/app/assets/icons/shortcut-bookmark.svg";
+import shortcutInquiry from "@/app/assets/icons/shortcut-inquiry.svg";
+import shortcutKindergartenList from "@/app/assets/icons/shortcut-kindergarten-list.svg";
+import shortcutKindergartenMap from "@/app/assets/icons/shortcut-kindergarten-map.svg";
+import shortcutKindergartenSearch from "@/app/assets/icons/shortcut-kindergarten-search.svg";
+import shortcutMyInquiry from "@/app/assets/icons/shortcut-myinquiry.svg";
+import shortcutMyPost from "@/app/assets/icons/shortcut-mypost.svg";
+import shortcutPostCreate from "@/app/assets/icons/shortcut-post-create.svg";
+import shortcutPreTeacherCommunity from "@/app/assets/icons/shortcut-preteacher-community.svg";
+import shortcutTeacherCommunity from "@/app/assets/icons/shortcut-teacher-community.svg";
 import starDarkgray from "@/app/assets/icons/star-darkgray.svg";
 import starGray from "@/app/assets/icons/star-gray.svg";
 import starYellow from "@/app/assets/icons/star-yellow.svg";
@@ -84,6 +94,8 @@ import landingShare from "@/app/assets/images/landing-share.webp";
 import logoInactive from "@/app/assets/images/logo-inactive.webp";
 import logoMain from "@/app/assets/images/logo-main.webp";
 import openGraph from "@/app/assets/images/open-graph.png";
+import typoMenuBookmark from "@/app/assets/images/typo-menu-bookmark.webp";
+import typoShortcut from "@/app/assets/images/typo-shortcut.webp";
 
 export const SVG_PATHS = {
   NAV: {
@@ -119,6 +131,7 @@ export const SVG_PATHS = {
   },
 
   USER_MENU: {
+    HAMBURGER: hamburger,
     SETTING: setting,
     NOTICE: notice,
     DOCUMENT: document,
@@ -220,9 +233,25 @@ export const SVG_PATHS = {
   },
 
   SHORTCUT: {
-    KINDERGARTEN: shortcutKindergarten,
-    COMMUNITY: shortcutCommunity,
+    KINDERGARTEN: {
+      SEARCH: shortcutKindergartenSearch,
+      LIST: shortcutKindergartenList,
+      MAP: shortcutKindergartenMap,
+    },
+    COMMUNITY: {
+      TEACHER: shortcutTeacherCommunity,
+      PRE_TEACHER: shortcutPreTeacherCommunity,
+      POST_CREATE: shortcutPostCreate,
+    },
+    USER: {
+      MY_POST: shortcutMyPost,
+      MY_INQUIRY: shortcutMyInquiry,
+    },
+    INQUIRY: shortcutInquiry,
+    BOOKMARK: shortcutBookmark,
   },
+
+  HOME: home,
 
   // Miscellaneous
   FAVICON: favicon,
@@ -248,4 +277,8 @@ export const IMAGE_PATHS = {
     PROFILE: guideProfile,
   },
   OPEN_GRAPH: openGraph,
+  TYPO: {
+    SHORTCUT: typoShortcut,
+    MENU_BOOKMARK: typoMenuBookmark,
+  },
 };

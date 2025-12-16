@@ -43,11 +43,10 @@ export function useGeolocation(options?: PositionOptions): GeolocationState {
       return;
     }
 
-    // 위치 정보 요청 시작
+    // 위치 정보 요청
     hasRequestedLocation.current = true;
     setState((prev) => ({ ...prev, loading: true }));
 
-    // AbortController로 요청 취소 관리
     const abortController = new AbortController();
     let isRequestCompleted = false;
 
@@ -87,7 +86,7 @@ export function useGeolocation(options?: PositionOptions): GeolocationState {
         hasRequestedLocation.current = false;
       }
     };
-  }, []); // 한 번만 실행, options는 ref로 처리
+  }, []); // options는 ref로 처리
 
   return state;
 }

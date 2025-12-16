@@ -9,6 +9,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/shared/ui/carousel";
+import DotIndicator from "@/shared/ui/carousel/dot-indicator";
 import { cn } from "@/shared/utils/cn";
 
 // ------------------------------------------------------------------------------
@@ -168,20 +169,7 @@ const HomeCarousel = () => {
         </CarouselContent>
       </Carousel>
       <div className="pointer-events-none absolute bottom-3 right-4 z-10 flex flex-col items-end gap-1">
-        <div className="flex gap-1">
-          {HOME_BANNER_ITEMS.map((banner, index) => {
-            const isActive = currentSlide === index + 1;
-            return (
-              <span
-                key={`${banner.id}-dot`}
-                className={cn(
-                  "h-2 w-2 rounded-full bg-white/40 transition-all duration-300",
-                  isActive ? "w-4 bg-white" : "opacity-70"
-                )}
-              />
-            );
-          })}
-        </div>
+        <DotIndicator total={HOME_BANNER_ITEMS.length} current={currentSlide} />
       </div>
     </div>
   );

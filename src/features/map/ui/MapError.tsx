@@ -66,7 +66,7 @@ export default function MapError({ height, error }: MapErrorProps) {
     >
       <img
         src={SVG_PATHS.CHARACTER.CRY}
-        alt="경고"
+        alt="눈물 흘리는 병아리 아이콘"
         width={46}
         height={52}
         className="mx-auto mb-2 h-16 w-14"

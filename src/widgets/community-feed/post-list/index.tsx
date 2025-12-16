@@ -10,24 +10,9 @@ import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
 import { getCategoryLabel } from "@/shared/utils/categoryUtils";
 import PostCard from "@/widgets/community-feed/post-list/ui/PostCard";
 
-interface PostListProps {
-  type: "teacher" | "pre-teacher";
-  categoryName: string;
-  searchQuery?: string;
-  searchType?: "title" | "content";
-}
-
-interface PostItemProps {
-  index: number;
-  style: React.CSSProperties;
-  data: {
-    posts: CommunityPostItem[];
-    currentCategory: string;
-    lastItemRef?:
-      | React.RefObject<HTMLDivElement>
-      | ((node?: Element | null) => void);
-  };
-}
+const INITIAL_HEIGHT_OFFSET = 180;
+const RESIZE_HEIGHT_OFFSET = 280;
+const ITEM_HEIGHT = 138;
 
 const PostItem = ({ index, style, data }: PostItemProps) => {
   const { posts, currentCategory, lastItemRef } = data;
@@ -56,7 +41,9 @@ export default function PostList({
   searchType = "title",
 }: PostListProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [maxListHeight, setMaxListHeight] = useState(window.innerHeight - 200);
+  const [maxListHeight, setMaxListHeight] = useState(
+    window.innerHeight - INITIAL_HEIGHT_OFFSET
+  );
   const [containerWidth, setContainerWidth] = useState<number | string>("100%");
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -102,7 +89,7 @@ export default function PostList({
   // 창 크기 변경 시 높이 업데이트
   useEffect(() => {
     const handleResize = () => {
-      setMaxListHeight(window.innerHeight - 300);
+      setMaxListHeight(window.innerHeight - RESIZE_HEIGHT_OFFSET);
 
       if (containerRef.current) {
         setContainerWidth(containerRef.current.clientWidth);
@@ -150,8 +137,7 @@ export default function PostList({
     );
   }
 
-  const itemHeight = 138;
-  const listHeight = Math.min(uniquePosts.length * itemHeight, maxListHeight);
+  const listHeight = Math.min(uniquePosts.length * ITEM_HEIGHT, maxListHeight);
 
   return (
     <section ref={containerRef}>
@@ -164,7 +150,7 @@ export default function PostList({
         height={listHeight}
         width={containerWidth}
         itemCount={uniquePosts.length}
-        itemSize={itemHeight}
+        itemSize={ITEM_HEIGHT}
         itemData={{
           posts: uniquePosts,
           currentCategory: categoryName,
@@ -176,4 +162,25 @@ export default function PostList({
       </List>
     </section>
   );
+}
+
+// ------------------------------------------------------------------------------
+
+interface PostListProps {
+  type: "teacher" | "pre-teacher";
+  categoryName: string;
+  searchQuery?: string;
+  searchType?: "title" | "content";
+}
+
+interface PostItemProps {
+  index: number;
+  style: React.CSSProperties;
+  data: {
+    posts: CommunityPostItem[];
+    currentCategory: string;
+    lastItemRef?:
+      | React.RefObject<HTMLDivElement>
+      | ((node?: Element | null) => void);
+  };
 }

@@ -13,6 +13,8 @@ const badgeVariants = cva(
           "bg-secondary-light03 outline outline-1 outline-secondary-main",
         tertiary:
           "bg-tertiary-1 outline outline-1 outline-tertiary-2 hover:bg-secondary/80 !text-tertiary-3",
+        tertiary_dark:
+          "bg-tertiary-1 border border-tertiary-4 hover:bg-secondary/80 !text-tertiary-4",
       },
       size: {
         md: "px-2 py-0.5",

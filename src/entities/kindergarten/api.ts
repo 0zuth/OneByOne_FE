@@ -2,12 +2,15 @@ import { apiCall } from "@/shared/api/utils";
 import { API_PATHS } from "@/shared/config/api";
 
 import {
+  AddressRegionsResponse,
+  Kindergarten,
   KindergartenDetailResponse,
   KindergartenSearchParams,
   KindergartenSearchResponse,
   KindergartenSimple,
   NearbyKindergartensParams,
   NearbyKindergartensResponse,
+  RegionKindergartensParams,
 } from "./DTO.d";
 
 /**
@@ -124,6 +127,57 @@ export const searchKindergartens = async (
     return response;
   } catch (error) {
     console.error("유치원 검색 에러:", error);
+    throw error;
+  }
+};
+
+/**
+ * 지역별 유치원 목록 조회
+ * @param params regionId, subRegionId
+ * @returns 지역별 유치원 목록 (배열)
+ */
+export const getRegionKindergartens = async (
+  params: RegionKindergartensParams
+): Promise<Kindergarten[]> => {
+  try {
+    const { regionId, subRegionId } = params;
+
+    const queryParams = new URLSearchParams();
+
+    if (regionId !== undefined) {
+      queryParams.append("regionId", regionId.toString());
+    }
+
+    if (subRegionId !== undefined) {
+      queryParams.append("subRegionId", subRegionId.toString());
+    }
+
+    return await apiCall<void, Kindergarten[]>({
+      method: "GET",
+      path: `${API_PATHS.KINDERGARTEN.REGION}?${queryParams.toString()}`,
+      withAuth: true,
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.error("지역별 유치원 목록 조회 에러:", error);
+    throw error;
+  }
+};
+
+/**
+ * 주소 지역 목록 조회
+ * @returns 지역 목록 (시/도 및 시/군/구)
+ */
+export const getAddressRegions = async (): Promise<AddressRegionsResponse> => {
+  try {
+    return await apiCall<void, AddressRegionsResponse>({
+      method: "GET",
+      path: API_PATHS.ADDRESS.BASE,
+      withAuth: true,
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.error("주소 지역 목록 조회 에러:", error);
     throw error;
   }
 };

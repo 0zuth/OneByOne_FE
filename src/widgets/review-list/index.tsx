@@ -4,7 +4,7 @@ import { SortType } from "@/entities/review/DTO.d";
 import { REVIEW_TYPES } from "@/shared/constants/review";
 import Empty from "@/shared/ui/layout/empty";
 import { ReviewData } from "@/widgets/review-list/lib/getTotalRating";
-import ReviewCard from "@/widgets/review-list/ui/ReviewCard";
+import { ReviewCardList } from "@/widgets/review-list/ui/ReviewCardList";
 import SortToggle from "@/widgets/review-list/ui/SortToggle";
 import { ReviewFieldConfig } from "@/widgets/review-panel/lib/config";
 
@@ -46,7 +46,7 @@ export default function ReviewList({
         {/* <RatingFilter /> */}
       </div>
       {displayReviews.length > 0 ? (
-        <ReviewCard
+        <ReviewCardList
           review={displayReviews}
           fieldConfigs={fieldConfigs}
           type={type}

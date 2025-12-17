@@ -6,32 +6,13 @@ import CommunityHeader from "@/features/header/community-header";
 import KindergartenHeader from "@/features/header/kindergarten-header";
 import SaveHeader from "@/features/header/save-header";
 import GlobalNavBar from "@/features/nav/ui/GlobalNavBar";
+import { URL_PATHS } from "@/shared/constants/url-path";
 import Metadata from "@/shared/hooks/useMetadata";
 import Main from "@/shared/ui/layout/main";
 import Wrapper from "@/shared/ui/layout/page-wrapper";
 
-/**
- * 페이지의 공용 레이아웃
- * @param children
- * @param title Metadata, 페이지 제목
- * @param description Metadata, 페이지 설명
- * @param ogImage Metadata, 오픈 그래프 이미지 URL
- * @param ogUrl Metadata, 페이지 URL
- * @param headerTitle 원바원 로고 미노출 시 빈 문자열 기입
- * @param headerType base, community, kindergarten, save, bookmark
- * @param headerBgColor
- * @param headerHasBorder Header 하단 테두리 유무, 기본 값 true
- * @param hasBackButton 헤더에 뒤로가기 버튼 표시 여부
- * @param onBackButtonClick 뒤로가기 버튼 클릭 시 실행할 함수
- * @param currentPath
- * @param wrapperBg 기본 값 gray
- * @param mainBg 기본 값 white
- * @param mainClassName
- * @param isGlobalNavBar 기본 값 true
- * @param kindergartenId
- * @param showBookmark
- * @param onSave 저장 버튼 클릭 시 실행할 함수 (headerType이 save인 경우)
- */
+const authPaths = [URL_PATHS.SIGNIN, URL_PATHS.SIGNUP, URL_PATHS.FIND_PASSWORD];
+
 interface PageLayoutProps {
   children: ReactNode;
   title?: string;
@@ -55,8 +36,33 @@ interface PageLayoutProps {
   showShare?: boolean;
   onSave?: () => void;
   showAlarmButton?: boolean;
+  showHamburgerButton?: boolean;
 }
 
+/**
+ * 페이지의 공용 레이아웃
+ * @param children
+ * @param title Metadata, 페이지 제목
+ * @param description Metadata, 페이지 설명
+ * @param ogImage Metadata, 오픈 그래프 이미지 URL
+ * @param ogUrl Metadata, 페이지 URL
+ * @param headerTitle 원바원 로고 미노출 시 빈 문자열 기입
+ * @param headerType base, community, kindergarten, save, bookmark
+ * @param headerBgColor
+ * @param headerHasBorder Header 하단 테두리 유무, 기본 값 true
+ * @param hasBackButton 헤더에 뒤로가기 버튼 표시 여부
+ * @param onBackButtonClick 뒤로가기 버튼 클릭 시 실행 함수
+ * @param currentPath
+ * @param wrapperBg 기본 값 gray
+ * @param mainBg 기본 값 white
+ * @param mainClassName
+ * @param isGlobalNavBar 기본 값 true
+ * @param kindergartenId
+ * @param showBookmark
+ * @param onSave 저장 버튼 클릭 시 실행 함수 (headerType이 save인 경우)
+ * @param showAlarmButton 알림 버튼 표시 여부 (기본 값 false)
+ * @param showHamburgerButton 사이드바 버튼 표시 여부 (인증 페이지에서는 자동 숨김)
+ */
 export default function PageLayout({
   children,
   title,
@@ -80,7 +86,13 @@ export default function PageLayout({
   showShare,
   onSave,
   showAlarmButton = false,
+  showHamburgerButton,
 }: PageLayoutProps) {
+  const shouldShowHamburgerButton =
+    showHamburgerButton !== undefined
+      ? showHamburgerButton
+      : !authPaths.includes(currentPath);
+
   const renderHeader = () => {
     if (!headerTitle && !headerLogo) return null;
 
@@ -92,6 +104,7 @@ export default function PageLayout({
       hasBackButton: hasBackButton,
       onBackButtonClick: onBackButtonClick,
       showAlarmButton: showAlarmButton,
+      showHamburgerButton: shouldShowHamburgerButton,
     };
 
     switch (headerType) {

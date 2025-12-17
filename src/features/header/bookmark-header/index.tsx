@@ -7,6 +7,7 @@ interface BookmarkHeaderProps {
   hasBorder?: boolean;
   hasBackButton?: boolean;
   onBackButtonClick?: () => void;
+  showHamburgerButton?: boolean;
 }
 
 export default function BookmarkHeader({
@@ -14,6 +15,7 @@ export default function BookmarkHeader({
   hasBorder,
   hasBackButton,
   onBackButtonClick,
+  showHamburgerButton,
 }: BookmarkHeaderProps) {
   const handleBookmark = () => {
     // TODO: 북마크 기능
@@ -25,6 +27,7 @@ export default function BookmarkHeader({
       hasBorder={hasBorder}
       hasBackButton={hasBackButton}
       onBackButtonClick={onBackButtonClick}
+      showHamburgerButton={showHamburgerButton}
     >
       <button onClick={handleBookmark} aria-label="북마크">
         <img

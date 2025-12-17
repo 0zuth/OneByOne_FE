@@ -18,15 +18,50 @@ import ReviewResource from "@/widgets/review-list/ui/ReviewResource";
 import ReviewSummary from "@/widgets/review-list/ui/ReviewSummary";
 import { ReviewFieldConfig } from "@/widgets/review-panel/lib/config";
 
-export interface ReviewCardProps {
+export interface ReviewCardListProps {
   review: ReviewData | ReviewData[];
   fieldConfigs: ReviewFieldConfig[];
   type: string;
-  showResource?: boolean; // 유치원 정보 링크 표시 여부 (기본값: false)
+  showResource?: boolean; // 유치원 정보 링크 표시 여부
   limitItems?: number; // ReviewContent의 아이템 수 제한 (기본값: undefined = 전체 표시)
 }
 
-function ReviewCardItem({
+export function ReviewCardList({
+  review,
+  fieldConfigs,
+  type,
+  showResource = false,
+  limitItems,
+}: ReviewCardListProps) {
+  const reviews = Array.isArray(review) ? review : [review];
+
+  return (
+    <div className="flex flex-col gap-8">
+      {reviews.map((item, index) => {
+        const isLastItem = index === reviews.length - 1;
+        return (
+          <ReviewCard
+            key={
+              "workReviewId" in item
+                ? item.workReviewId
+                : item.internshipReviewId
+            }
+            review={item}
+            fieldConfigs={fieldConfigs}
+            type={type}
+            showResource={showResource}
+            limitItems={limitItems}
+            isLastItem={isLastItem}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------------------
+
+export function ReviewCard({
   review,
   fieldConfigs,
   type,
@@ -86,7 +121,7 @@ function ReviewCardItem({
 
   return (
     <div
-      className={`${!isLastItem ? "border-b border-b-primary-light02 pb-7" : ""}`}
+      className={!isLastItem ? "border-b border-b-primary-light02 pb-7" : ""}
     >
       <div className="flex flex-col gap-7 px-5">
         <div className="flex items-start justify-between gap-2">
@@ -97,6 +132,7 @@ function ReviewCardItem({
               workType={review.workType}
               createdAt={review.createdAt || ""}
               workYear={getWorkYear(review, type)}
+              isExpanded={isExpanded}
             />
           </div>
           <div className="flex-shrink-0">
@@ -168,45 +204,6 @@ function ReviewCardItem({
           />
         </div>
       </div>
-    </div>
-  );
-}
-
-export default function ReviewCard({
-  review,
-  fieldConfigs,
-  type,
-  showResource = false,
-  limitItems,
-}: ReviewCardProps) {
-  return (
-    <div className="flex flex-col gap-8">
-      {Array.isArray(review) ? (
-        review.map((item, index) => (
-          <ReviewCardItem
-            key={
-              "workReviewId" in item
-                ? item.workReviewId
-                : item.internshipReviewId
-            }
-            review={item}
-            fieldConfigs={fieldConfigs}
-            type={type}
-            showResource={showResource}
-            limitItems={limitItems}
-            isLastItem={index === review.length - 1}
-          />
-        ))
-      ) : (
-        <ReviewCardItem
-          review={review}
-          fieldConfigs={fieldConfigs}
-          type={type}
-          showResource={showResource}
-          limitItems={limitItems}
-          isLastItem={true}
-        />
-      )}
     </div>
   );
 }

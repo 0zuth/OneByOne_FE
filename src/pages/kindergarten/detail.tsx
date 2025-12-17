@@ -1,6 +1,7 @@
 import { Suspense, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+import { useUrlNavigation } from "@/features/nav/lib/useUrlNavigation";
 import { URL_PATHS } from "@/shared/constants/url-path";
 import Error from "@/shared/ui/layout/error";
 import PageLayout from "@/shared/ui/layout/page-layout";
@@ -16,13 +17,19 @@ export default function KindergartenDetailPage() {
   const safeId = id || "unknown";
   const [kindergartenName, setKindergartenName] = useState<string | null>(null);
 
-  const handleBackClick = () => {
+  const customBackHandler = () => {
     if (location.state?.fromBookmarks) {
       navigate(URL_PATHS.USER_FAVORITES);
-      return;
+      return true;
     }
 
-    navigate(URL_PATHS.KINDERGARTEN);
+    return false;
+  };
+
+  const { handleBackNavigation } = useUrlNavigation(customBackHandler);
+
+  const handleBackClick = () => {
+    handleBackNavigation();
   };
 
   return (

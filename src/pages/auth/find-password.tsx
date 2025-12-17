@@ -17,7 +17,7 @@ const FIND_PASSWORD_STEP_CONFIGS = {
     getSubtitle: () => (
       <p className="mt-2 text-sm text-primary-normal03">
         가입하신 이메일 주소를 입력해 주세요. <br />
-        인증번호 메일을 보내드릴게요.
+        본인 확인을 위한 <strong>인증번호</strong>를 보내드릴게요.
       </p>
     ),
   },
@@ -25,8 +25,8 @@ const FIND_PASSWORD_STEP_CONFIGS = {
     title: "인증번호 메일 발송 완료",
     getSubtitle: (data: Record<string, unknown>) => (
       <p className="mt-2 text-sm text-primary-normal03">
-        {data.email as string}로 발송되었습니다. <br />
-        인증 후 메일로 임시 비밀번호를 발급해드릴게요.
+        {data.email as string}로 발송된 인증번호를 입력해주세요. <br />
+        인증 후 <strong>임시 비밀번호를 재발급</strong>해드릴게요.
       </p>
     ),
   },

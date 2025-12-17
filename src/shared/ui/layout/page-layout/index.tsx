@@ -51,7 +51,7 @@ interface PageLayoutProps {
  * @param headerBgColor
  * @param headerHasBorder Header 하단 테두리 유무, 기본 값 true
  * @param hasBackButton 헤더에 뒤로가기 버튼 표시 여부
- * @param onBackButtonClick 뒤로가기 버튼 클릭 시 실행할 함수
+ * @param onBackButtonClick 뒤로가기 버튼 클릭 시 실행 함수
  * @param currentPath
  * @param wrapperBg 기본 값 gray
  * @param mainBg 기본 값 white
@@ -59,7 +59,9 @@ interface PageLayoutProps {
  * @param isGlobalNavBar 기본 값 true
  * @param kindergartenId
  * @param showBookmark
- * @param onSave 저장 버튼 클릭 시 실행할 함수 (headerType이 save인 경우)
+ * @param onSave 저장 버튼 클릭 시 실행 함수 (headerType이 save인 경우)
+ * @param showAlarmButton 알림 버튼 표시 여부 (기본 값 false)
+ * @param showHamburgerButton 사이드바 버튼 표시 여부 (인증 페이지에서는 자동 숨김)
  */
 export default function PageLayout({
   children,

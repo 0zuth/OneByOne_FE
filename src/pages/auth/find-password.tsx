@@ -62,7 +62,12 @@ export default function FindPasswordPage() {
   };
 
   const stepComponents = {
-    1: <EmailForm onNext={stepHandlers[1]} />,
+    1: (
+      <EmailForm
+        onNext={stepHandlers[1]}
+        certificationType="TEMPORARY_PASSWORD"
+      />
+    ),
     2: (
       <EmailCertificationForm
         email={formData.email!}

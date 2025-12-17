@@ -13,11 +13,15 @@ const step1Schema = z.object({
 
 export type EmailFormValues = z.infer<typeof step1Schema>;
 
+interface EmailFormProps {
+  onNext: (data: EmailFormValues) => void;
+  certificationType?: "EMAIL" | "TEMPORARY_PASSWORD";
+}
+
 export function EmailForm({
   onNext,
-}: {
-  onNext: (data: EmailFormValues) => void;
-}) {
+  certificationType = "EMAIL",
+}: EmailFormProps) {
   const { mutate: sendEmail, isPending } = useSendEmailCertification();
 
   const form = useForm<EmailFormValues>({
@@ -27,11 +31,14 @@ export function EmailForm({
   });
 
   const onSubmit = (data: EmailFormValues) => {
-    sendEmail(data.email, {
-      onSuccess: (success: boolean) => {
-        if (success) onNext(data);
-      },
-    });
+    sendEmail(
+      { email: data.email, type: certificationType },
+      {
+        onSuccess: (success: boolean) => {
+          if (success) onNext(data);
+        },
+      }
+    );
   };
 
   return (

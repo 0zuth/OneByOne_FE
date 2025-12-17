@@ -57,3 +57,8 @@ export interface AppleCallbackRequest {
   id_token: string;
   fcmToken?: string;
 }
+
+export interface SendEmailCertificationRequest {
+  email: string;
+  type: "EMAIL" | "TEMPORARY_PASSWORD";
+}

@@ -7,8 +7,12 @@ import { toast } from "@/shared/hooks/useToast";
  * 이메일 인증 번호 발송 API 호출
  */
 export const useSendEmailCertification = () => {
-  return useMutation<boolean, Error, string>({
-    mutationFn: (email) => sendEmailCertification(email),
+  return useMutation<
+    boolean,
+    Error,
+    { email: string; type?: "EMAIL" | "TEMPORARY_PASSWORD" }
+  >({
+    mutationFn: ({ email, type }) => sendEmailCertification(email, type),
     onError: (error) => {
       let errorMessage = "잠시 후 다시 시도해주세요.";
 

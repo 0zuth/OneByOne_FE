@@ -196,18 +196,18 @@ export const updateUserRole = async (
 /**
  * 이메일 인증 번호 발송
  * @param email 인증 번호를 받을 이메일
- * @param type 인증 타입 (EMAIL | TEMPORARY_PASSWORD)
+ * @param certificationType 인증 타입 (EMAIL | TEMPORARY_PASSWORD)
  * @returns 발송 성공 여부
  */
 export const sendEmailCertification = async (
   email: string,
-  type: "EMAIL" | "TEMPORARY_PASSWORD" = "EMAIL"
+  certificationType: "EMAIL" | "TEMPORARY_PASSWORD" = "EMAIL"
 ): Promise<boolean> => {
   try {
     await apiCall<SendEmailCertificationRequest, void>({
       method: "POST",
       path: API_PATHS.USER.FIND_PASSWORD,
-      data: { email, type },
+      data: { email, certificationType },
       withCredentials: true,
     });
 

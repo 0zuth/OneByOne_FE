@@ -36,6 +36,7 @@ export interface TokenRefreshResponse {
 
 export interface ResetPasswordRequest {
   email: string;
+  code: string;
 }
 
 export interface ResetPasswordResponse {
@@ -60,5 +61,5 @@ export interface AppleCallbackRequest {
 
 export interface SendEmailCertificationRequest {
   email: string;
-  type: "EMAIL" | "TEMPORARY_PASSWORD";
+  certificationType: "EMAIL" | "TEMPORARY_PASSWORD";
 }

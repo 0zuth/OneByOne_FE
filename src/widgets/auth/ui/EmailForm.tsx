@@ -32,7 +32,7 @@ export function EmailForm({
 
   const onSubmit = (data: EmailFormValues) => {
     sendEmail(
-      { email: data.email, type: certificationType },
+      { email: data.email, certificationType },
       {
         onSuccess: (success: boolean) => {
           if (success) onNext(data);

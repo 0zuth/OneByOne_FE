@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { useCheckEmailCertification } from "@/entities/auth/hooks";
+import { useCheckEmailCertification, useResetPassword } from "@/entities/auth/hooks";
 import CertificationField from "@/features/form/ui/fields/CertificationField";
 import SubmitButton from "@/features/form/ui/SubmitButton";
 import { Form } from "@/shared/ui/form";
@@ -15,14 +15,21 @@ export type EmailCertificationFormValues = z.infer<typeof step2Schema>;
 
 interface EmailCertificationFormProps {
   email: string;
-  onNext: () => void;
+  onNext: (certification?: string) => void;
+  mode?: "signup" | "findPassword";
 }
 
 export function EmailCertificationForm({
   email,
   onNext,
+  mode = "signup",
 }: EmailCertificationFormProps) {
-  const { mutate: checkEmail, isPending } = useCheckEmailCertification();
+  const { mutate: checkEmail, isPending: isCheckPending } =
+    useCheckEmailCertification();
+  const { mutate: resetPassword, isPending: isResetPending } =
+    useResetPassword();
+
+  const isPending = isCheckPending || isResetPending;
 
   const form = useForm<EmailCertificationFormValues>({
     resolver: zodResolver(step2Schema),
@@ -31,14 +38,27 @@ export function EmailCertificationForm({
   });
 
   const onSubmit = (data: EmailCertificationFormValues) => {
-    checkEmail(
-      { email, certification: data.certification },
-      {
-        onSuccess: (success: boolean) => {
-          if (success) onNext();
-        },
-      }
-    );
+    if (mode === "findPassword") {
+      // 비밀번호 찾기: 임시 비밀번호 발급 API 호출
+      resetPassword(
+        { email, code: data.certification },
+        {
+          onSuccess: () => {
+            onNext(data.certification);
+          },
+        }
+      );
+    } else {
+      // 회원가입: 인증번호 검증만
+      checkEmail(
+        { email, certification: data.certification },
+        {
+          onSuccess: (success: boolean) => {
+            if (success) onNext(data.certification);
+          },
+        }
+      );
+    }
   };
 
   return (

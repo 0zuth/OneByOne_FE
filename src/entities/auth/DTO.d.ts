@@ -36,6 +36,7 @@ export interface TokenRefreshResponse {
 
 export interface ResetPasswordRequest {
   email: string;
+  code: string;
 }
 
 export interface ResetPasswordResponse {
@@ -56,4 +57,9 @@ export interface KakaoCallbackRequest {
 export interface AppleCallbackRequest {
   id_token: string;
   fcmToken?: string;
+}
+
+export interface SendEmailCertificationRequest {
+  email: string;
+  certificationType: "EMAIL" | "TEMPORARY_PASSWORD";
 }

@@ -1,4 +1,3 @@
-import { useResetPassword } from "@/entities/auth/hooks";
 import { URL_PATHS } from "@/shared/constants/url-path";
 import useFormData from "@/shared/hooks/useFormdata";
 import { useStepNavigation } from "@/shared/hooks/useStepNavigation";
@@ -34,8 +33,6 @@ const FIND_PASSWORD_STEP_CONFIGS = {
 };
 
 export default function FindPasswordPage() {
-  const { mutate: resetPassword } = useResetPassword();
-
   const {
     currentStep: step,
     goToPreviousStep,
@@ -57,16 +54,22 @@ export default function FindPasswordPage() {
       goToNextStep();
     },
     2: () => {
-      resetPassword({ email: formData.email! });
+      // 임시 비밀번호 발급 완료
     },
   };
 
   const stepComponents = {
-    1: <EmailForm onNext={stepHandlers[1]} />,
+    1: (
+      <EmailForm
+        onNext={stepHandlers[1]}
+        certificationType="TEMPORARY_PASSWORD"
+      />
+    ),
     2: (
       <EmailCertificationForm
         email={formData.email!}
         onNext={stepHandlers[2]}
+        mode="findPassword"
       />
     ),
   };

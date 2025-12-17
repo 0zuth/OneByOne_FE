@@ -1,6 +1,7 @@
 import { getDefaultStore } from "jotai/vanilla";
 
 import { getAccessToken, signOut } from "@/entities/auth/api";
+import { SendEmailCertificationRequest } from "@/entities/auth/DTO.d";
 import { userAtom } from "@/entities/auth/model";
 import { apiCall } from "@/shared/api/utils";
 import { API_PATHS } from "@/shared/config/api";
@@ -195,16 +196,18 @@ export const updateUserRole = async (
 /**
  * 이메일 인증 번호 발송
  * @param email 인증 번호를 받을 이메일
+ * @param certificationType 인증 타입 (EMAIL | TEMPORARY_PASSWORD)
  * @returns 발송 성공 여부
  */
 export const sendEmailCertification = async (
-  email: string
+  email: string,
+  certificationType: "EMAIL" | "TEMPORARY_PASSWORD" = "EMAIL"
 ): Promise<boolean> => {
   try {
-    await apiCall<{ email: string }, void>({
+    await apiCall<SendEmailCertificationRequest, void>({
       method: "POST",
       path: API_PATHS.USER.FIND_PASSWORD,
-      data: { email },
+      data: { email, certificationType },
       withCredentials: true,
     });
 

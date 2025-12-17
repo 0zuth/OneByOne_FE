@@ -11,7 +11,7 @@ import { REVIEW_TYPES, REVIEW_TYPE_LABELS } from "@/shared/constants/review";
 import Empty from "@/shared/ui/layout/empty";
 import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
 import { ReviewData } from "@/widgets/review-list/lib/getTotalRating";
-import ReviewCard from "@/widgets/review-list/ui/ReviewCard";
+import { ReviewCardList } from "@/widgets/review-list/ui/ReviewCardList";
 import SortToggle from "@/widgets/review-list/ui/SortToggle";
 import { getFieldConfigsByType } from "@/widgets/review-panel/lib/getFieldConfigsByType";
 
@@ -80,7 +80,7 @@ export default function AllReviewList() {
         {reviews.length > 0 ? (
           <>
             <section>
-              <ReviewCard
+              <ReviewCardList
                 review={reviews as unknown as ReviewData[]}
                 type={reviewType}
                 fieldConfigs={fieldConfigs}

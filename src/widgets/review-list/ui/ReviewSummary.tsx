@@ -10,6 +10,7 @@ interface ReviewSummaryProps {
   workYear?: string;
   className?: string;
   onClick?: () => void;
+  isExpanded?: boolean;
 }
 
 export default function ReviewSummary({
@@ -20,6 +21,7 @@ export default function ReviewSummary({
   workYear,
   className,
   onClick,
+  isExpanded = false,
 }: ReviewSummaryProps) {
   return (
     <div
@@ -45,7 +47,12 @@ export default function ReviewSummary({
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        <h2 className="line-clamp-1 text-pretty font-semibold text-primary-dark02">
+        <h2
+          className={cn(
+            "text-pretty font-semibold text-primary-dark02",
+            !isExpanded && "line-clamp-1"
+          )}
+        >
           {title}
         </h2>
         <p className="text-xs text-primary-normal03">

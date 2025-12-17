@@ -10,8 +10,8 @@ import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
 import { getCategoryLabel } from "@/shared/utils/categoryUtils";
 import PostCard from "@/widgets/community-feed/post-list/ui/PostCard";
 
-const INITIAL_HEIGHT_OFFSET = 180;
-const RESIZE_HEIGHT_OFFSET = 280;
+const INITIAL_HEIGHT_OFFSET = 170;
+const RESIZE_HEIGHT_OFFSET = 270;
 const ITEM_HEIGHT = 138;
 
 const PostItem = ({ index, style, data }: PostItemProps) => {

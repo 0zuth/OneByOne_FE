@@ -18,6 +18,7 @@ interface KindergartenHeaderProps {
   kindergartenId?: string;
   showBookmark?: boolean;
   showShare?: boolean;
+  showHamburgerButton?: boolean;
 }
 
 export default function KindergartenHeader({
@@ -29,6 +30,7 @@ export default function KindergartenHeader({
   kindergartenId,
   showBookmark = false,
   showShare = false,
+  showHamburgerButton,
 }: KindergartenHeaderProps) {
   const navigate = useNavigate();
 
@@ -43,6 +45,7 @@ export default function KindergartenHeader({
       hasBorder={hasBorder}
       hasBackButton={hasBackButton}
       onBackButtonClick={onBackButtonClick}
+      showHamburgerButton={showHamburgerButton}
     >
       <div className="flex items-center gap-4">
         {showShare && kindergartenId && isValidId(kindergartenId) && (

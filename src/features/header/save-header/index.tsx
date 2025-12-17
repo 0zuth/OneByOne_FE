@@ -8,6 +8,7 @@ interface SaveHeaderProps {
   hasBackButton?: boolean;
   onBackButtonClick?: () => void;
   onSave?: () => void;
+  showHamburgerButton?: boolean;
 }
 
 export default function SaveHeader({
@@ -16,6 +17,7 @@ export default function SaveHeader({
   hasBackButton,
   onBackButtonClick,
   onSave,
+  showHamburgerButton,
 }: SaveHeaderProps) {
   return (
     <Header
@@ -23,6 +25,7 @@ export default function SaveHeader({
       hasBorder={hasBorder}
       hasBackButton={hasBackButton}
       onBackButtonClick={onBackButtonClick}
+      showHamburgerButton={showHamburgerButton}
     >
       <Button
         type="button"

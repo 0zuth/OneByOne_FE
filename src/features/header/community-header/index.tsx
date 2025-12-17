@@ -13,6 +13,7 @@ interface CommunityHeaderProps {
   hasWriteButton?: boolean;
   category?: "TEACHER" | "PROSPECTIVE_TEACHER";
   hasBorder?: boolean;
+  showHamburgerButton?: boolean;
 }
 
 export default function CommunityHeader({
@@ -23,6 +24,7 @@ export default function CommunityHeader({
   hasWriteButton = false,
   category = "TEACHER",
   hasBorder = true,
+  showHamburgerButton,
 }: CommunityHeaderProps) {
   const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ export default function CommunityHeader({
       hasBackButton={hasBackButton}
       onBackButtonClick={onBackButtonClick}
       hasBorder={hasBorder}
+      showHamburgerButton={showHamburgerButton}
     >
       <div className="flex items-center gap-4">
         <button onClick={handleSearch} aria-label="검색">

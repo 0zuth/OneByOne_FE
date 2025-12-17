@@ -20,8 +20,13 @@ export const useResetPassword = () => {
     mutationFn: resetPassword,
     onSuccess: () => {
       toast({
-        title: "임시 비밀번호 발송 완료",
-        description: "로그인 후 비밀번호를 변경해주세요.",
+        title: "본인 확인 완료",
+        description: (
+          <>
+            메일로 임시 비밀번호를 보내드렸어요. 📧 <br />{" "}
+            <strong>임시 비밀번호</strong>로 로그인해주세요.
+          </>
+        ),
         variant: "default",
       });
       navigate(URL_PATHS.SIGNIN);

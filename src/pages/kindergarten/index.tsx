@@ -224,25 +224,27 @@ export default function KindergartenPage() {
             ) : shouldShowRegionMessage ? (
               <div className="flex h-80 w-full flex-col items-center justify-center gap-3 rounded-lg border border-primary-normal01 bg-primary-light01 p-6">
                 <img
-                  src={SVG_PATHS.CHARACTER.USER}
-                  alt="회색 병아리 아이콘"
-                  width={46}
-                  height={52}
-                  className="mx-auto mb-2 h-16 w-14"
+                  src={SVG_PATHS.CHARACTER.SEARCH}
+                  alt="검색하는 병아리 아이콘"
+                  width={80}
+                  height={60}
+                  className="mx-auto mb-2 h-20 w-28"
                 />
                 <p className="-mt-2 text-center text-xs font-medium text-primary-dark01">
-                  검색 조건 설정에서 <br /> <strong>검색할 지역</strong>을
-                  추가해보세요.
+                  <strong>검색 조건 설정</strong> 버튼을 눌러 <br /> 지역을
+                  선택해 주세요.
                 </p>
               </div>
             ) : null}
           </section>
 
-          <KindergartenList
-            kindergartens={currentKindergartens}
-            tabType={activeTab}
-            hasRegion={!!selectedRegionName}
-          />
+          {!shouldShowRegionMessage && (
+            <KindergartenList
+              kindergartens={currentKindergartens}
+              tabType={activeTab}
+              hasRegion={!!selectedRegionName}
+            />
+          )}
         </>
       )}
       {activeTab === "region" && (

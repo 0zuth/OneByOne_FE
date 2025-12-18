@@ -72,7 +72,7 @@ export default function MapError({ height, error }: MapErrorProps) {
         className="mx-auto mb-2 h-16 w-14"
       />
       <p className="-mt-2 text-center text-xs font-medium text-primary-dark01">
-        {errorMessage} <br /> 검색으로 탐색해주세요.
+        {errorMessage} <br /> <strong>검색</strong>으로 탐색해주세요.
       </p>
     </div>
   );

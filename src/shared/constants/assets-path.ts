@@ -17,6 +17,7 @@ import certification from "@/app/assets/icons/certification-mark.svg";
 import characterChick from "@/app/assets/icons/character-chick.svg";
 import characterChicken from "@/app/assets/icons/character-chicken.svg";
 import characterCry from "@/app/assets/icons/character-cry.svg";
+import characterSearch from "@/app/assets/icons/character-search.svg";
 import characterUser from "@/app/assets/icons/character-user.svg";
 import chart from "@/app/assets/icons/chart.svg";
 import chatColor from "@/app/assets/icons/chat-color.svg";
@@ -224,6 +225,7 @@ export const SVG_PATHS = {
     CHICK: characterChick,
     USER: characterUser,
     CRY: characterCry,
+    SEARCH: characterSearch,
   },
 
   QUESTION: {

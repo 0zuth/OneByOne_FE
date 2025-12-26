@@ -6,7 +6,9 @@ import {
   MessageType,
   PermissionResult,
   PermissionType,
+  RewardAdResult,
   requestKakaoShare,
+  requestRewardAd,
   sendToFlutter,
 } from "@/shared/utils/webViewCommunication";
 
@@ -243,4 +245,84 @@ export function useKakaoShare(): [
   );
 
   return [shareToKakao, isSharing, shareError];
+}
+
+/**
+ * 보상형 광고 요청을 위한 훅
+ * @returns [showRewardAd, isLoading, error]
+ *
+ * @example
+ * function DeleteReviewComponent() {
+ *   const [showRewardAd, isLoading, error] = useRewardAd();
+ *
+ *   const handleDelete = async () => {
+ *     const result = await showRewardAd();
+ *
+ *     if (result.status === 'success') {
+ *       // 광고 시청 완료 - 리뷰 삭제 진행
+ *       await deleteReview();
+ *     } else if (result.status === 'cancelled') {
+ *       // 사용자가 광고를 중단함
+ *       alert('광고를 끝까지 시청해야 삭제할 수 있습니다.');
+ *     } else {
+ *       // 광고 로드 실패
+ *       alert('광고를 불러오는데 실패했습니다.');
+ *     }
+ *   };
+ *
+ *   return (
+ *     <button onClick={handleDelete} disabled={isLoading}>
+ *       {isLoading ? '광고 로딩 중...' : '리뷰 삭제'}
+ *     </button>
+ *   );
+ * }
+ */
+export function useRewardAd(): [
+  () => Promise<RewardAdResult>,
+  boolean,
+  string | null,
+] {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const showRewardAd = useCallback(async (): Promise<RewardAdResult> => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // 앱 환경인지 확인
+      if (!isFlutterWebView) {
+        console.warn("앱 환경이 아닙니다. 브라우저에서는 보상형 광고가 지원되지 않습니다.");
+        // 브라우저 환경에서는 광고 없이 진행
+        return {
+          status: "success",
+          rewarded: false,
+          message: "브라우저 환경에서는 광고가 지원되지 않습니다.",
+        };
+      }
+
+      const result = await requestRewardAd();
+
+      if (result.status === "error") {
+        setError(result.message);
+      }
+
+      return result;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "알 수 없는 오류";
+      console.error("보상형 광고 요청 오류:", error);
+      setError(errorMessage);
+      // 에러 발생 시에도 삭제 허용 (구버전 앱 대응)
+      return {
+        status: "success",
+        rewarded: false,
+        message: "광고 기능을 사용할 수 없습니다.",
+      };
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return [showRewardAd, isLoading, error];
 }

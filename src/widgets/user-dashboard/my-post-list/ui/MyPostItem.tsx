@@ -108,8 +108,10 @@ export default function MyPostItem({ data, index, style }: MyPostItemProps) {
         onConfirm={handleConfirmDelete}
         title="리뷰 삭제"
       >
-        리뷰를 삭제하시겠습니까? <br /> 작성된 리뷰가 없으면, <br /> 다른
-        사용자의 리뷰를 볼 수 없습니다.
+        리뷰를 삭제하시겠습니까? <br />
+        광고 시청 후 삭제가 진행됩니다. <br />
+        <br />
+        작성된 리뷰가 없으면, <br /> 다른 사용자의 리뷰를 볼 수 없습니다.
       </AlertModal>
     </>
   );

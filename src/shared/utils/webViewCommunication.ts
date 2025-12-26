@@ -8,6 +8,7 @@ export enum MessageType {
   REQUEST_LAT_LONG = "REQUEST_LAT_LONG",
   REQUEST_PERMISSION = "REQUEST_PERMISSION",
   KAKAO_SHARE = "KAKAO_SHARE",
+  REQUEST_REWARD_AD = "REQUEST_REWARD_AD",
   // TODO : 테스트 메시지 추가
 }
 
@@ -191,6 +192,64 @@ export async function requestKakaoShare(
     return {
       status: "error",
       message: error instanceof Error ? error.message : "알 수 없는 오류",
+    };
+  }
+}
+
+// 보상형 광고 결과 인터페이스
+export interface RewardAdResult {
+  status: "success" | "error" | "cancelled";
+  rewarded: boolean; // 실제로 광고를 시청하고 보상을 받았는지 여부
+  message: string;
+  reward?: {
+    amount: number;
+    type: string;
+  };
+}
+
+/**
+ * 보상형 광고 요청
+ * @returns 광고 시청 결과
+ */
+export async function requestRewardAd(): Promise<RewardAdResult> {
+  try {
+    // 타임아웃 설정 (30초) - 광고 로드 및 시청 시간 고려
+    const timeoutPromise = new Promise<RewardAdResult>((resolve) => {
+      setTimeout(() => {
+        console.warn("보상형 광고 응답 타임아웃");
+        resolve({
+          status: "error",
+          rewarded: false,
+          message: "광고를 불러오는데 시간이 너무 오래 걸립니다.",
+        });
+      }, 30000);
+    });
+
+    const adPromise = sendToFlutter<
+      Record<string, never>,
+      RewardAdResult
+    >(MessageType.REQUEST_REWARD_AD, {});
+
+    const result = await Promise.race([adPromise, timeoutPromise]);
+    
+    // 구버전 앱의 default 응답 처리 (rewarded 필드가 없는 경우)
+    if (result.status === "success" && result.rewarded === undefined) {
+      console.warn("구버전 앱 감지 - 광고 기능이 없는 버전입니다.");
+      return {
+        status: "success",
+        rewarded: false,
+        message: "광고 기능을 지원하지 않는 버전입니다.",
+      };
+    }
+    
+    return result;
+  } catch (error) {
+    console.error("보상형 광고 요청 오류:", error);
+    // 에러 발생 시에도 삭제 허용 (구버전 앱 대응)
+    return {
+      status: "success",
+      rewarded: false,
+      message: "광고 기능을 사용할 수 없습니다.",
     };
   }
 }

@@ -8,7 +8,7 @@ export function useReviewLike(type: string, reviewId: number) {
   const queryKey =
     type === REVIEW_TYPES.WORK ? "workReviews" : "internshipReviews";
 
-  const { mutate: handleLike, isPending } = useMutation({
+  const { mutateAsync: handleLike, isPending } = useMutation({
     mutationFn: () => {
       if (type === REVIEW_TYPES.WORK) {
         return likeWorkReview(reviewId);

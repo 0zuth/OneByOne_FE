@@ -1,9 +1,10 @@
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { userAtom } from "@/entities/auth/model";
 import { useReviewLike } from "@/entities/review/hooks";
+import { useOptimisticUpdate } from "@/shared/hooks/useOptimisticUpdate";
 import Button from "@/shared/ui/buttons/base-button";
 import ReviewReportDropDown from "@/shared/ui/drop-down/review-report-drop-down";
 import { ShareType } from "@/shared/utils/webViewCommunication";
@@ -38,20 +39,17 @@ export function ReviewCardList({
   return (
     <div className="flex flex-col gap-8">
       {reviews.map((item, index) => {
-        const isLastItem = index === reviews.length - 1;
+        const key =
+          "workReviewId" in item ? item.workReviewId : item.internshipReviewId;
         return (
           <ReviewCard
-            key={
-              "workReviewId" in item
-                ? item.workReviewId
-                : item.internshipReviewId
-            }
+            key={key}
             review={item}
             fieldConfigs={fieldConfigs}
             type={type}
             showResource={showResource}
             limitItems={limitItems}
-            isLastItem={isLastItem}
+            isLastItem={index === reviews.length - 1}
           />
         );
       })}
@@ -61,6 +59,15 @@ export function ReviewCardList({
 
 // ------------------------------------------------------------------------------
 
+interface ReviewCardProps {
+  review: ReviewData;
+  fieldConfigs: ReviewFieldConfig[];
+  type: string;
+  showResource?: boolean;
+  limitItems?: number;
+  isLastItem?: boolean;
+}
+
 export function ReviewCard({
   review,
   fieldConfigs,
@@ -68,56 +75,60 @@ export function ReviewCard({
   showResource = false,
   limitItems,
   isLastItem = false,
-}: {
-  review: ReviewData;
-  fieldConfigs: ReviewFieldConfig[];
-  type: string;
-  showResource?: boolean;
-  limitItems?: number;
-  isLastItem?: boolean;
-}) {
+}: ReviewCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
 
-  // 좋아요 수 낙관적 업데이트를 위한 상태
-  const [localLikeCount, setLocalLikeCount] = useState(review.likeCount || 0);
-  const [localIsLiked, setLocalIsLiked] = useState(false);
+  // 리뷰 기본 정보
+  const reviewId =
+    "workReviewId" in review ? review.workReviewId : review.internshipReviewId;
+  const isContentBlocked = !user?.hasWrittenReview;
 
-  const { handleLike, isPending, isLiked } = useReviewLike(
-    type,
-    "workReviewId" in review ? review.workReviewId : review.internshipReviewId
+  // 좋아요 기능
+  const { handleLike, isPending, isLiked } = useReviewLike(type, reviewId);
+  const [likeCount, setLikeCount, rollbackLikeCount] = useOptimisticUpdate(
+    review.likeCount || 0
+  );
+  const [localIsLiked, setLocalIsLiked, rollbackIsLiked] = useOptimisticUpdate(
+    false,
+    isLiked
   );
 
-  useEffect(() => {
-    setLocalIsLiked(isLiked);
-  }, [isLiked]);
+  const isWriteButtonDisabled =
+    !review.kindergartenId ||
+    !user?.role ||
+    (user.role === "PROSPECTIVE_TEACHER" && type === "work");
 
-  const handleOptimisticLike = () => {
-    const wasLiked = localIsLiked;
-
-    setLocalIsLiked(!wasLiked);
-    setLocalLikeCount((prev) => (wasLiked ? prev - 1 : prev + 1));
-
-    handleLike();
+  // ReviewContent 공통 props
+  const reviewContentProps = {
+    review,
+    type,
+    fieldConfigs,
+    isExpanded,
+    onToggleExpand: () => setIsExpanded(!isExpanded),
+    limitItems,
   };
 
-  const handleWriteReview = () => {
-    if (review.kindergartenId && user) {
-      if (user.role === "TEACHER") {
-        navigate(`/kindergarten/${review.kindergartenId}/review/new?type=work`);
-      } else if (user.role === "PROSPECTIVE_TEACHER") {
-        navigate(
-          `/kindergarten/${review.kindergartenId}/review/new?type=learning`
-        );
-      }
+  const handleOptimisticLike = async () => {
+    setLocalIsLiked((prev: boolean) => !prev);
+    setLikeCount((prev: number) => prev + (localIsLiked ? -1 : 1));
+
+    try {
+      await handleLike();
+    } catch {
+      rollbackIsLiked();
+      rollbackLikeCount();
     }
   };
 
-  const isContentBlocked = !user?.hasWrittenReview;
-
-  const reviewId =
-    "workReviewId" in review ? review.workReviewId : review.internshipReviewId;
+  const handleWriteReview = () => {
+    if (!review.kindergartenId || !user?.role) return;
+    const reviewType = user.role === "PROSPECTIVE_TEACHER" ? "learning" : type;
+    navigate(
+      `/kindergarten/${review.kindergartenId}/review/new?type=${reviewType}`
+    );
+  };
 
   return (
     <div
@@ -154,14 +165,7 @@ export function ReviewCard({
         {isContentBlocked ? (
           <div className="relative">
             <div className="pointer-events-none opacity-70 blur-sm">
-              <ReviewContent
-                review={review}
-                type={type}
-                fieldConfigs={fieldConfigs}
-                isExpanded={isExpanded}
-                onToggleExpand={() => setIsExpanded(!isExpanded)}
-                limitItems={limitItems}
-              />
+              <ReviewContent {...reviewContentProps} />
             </div>
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
               <p className="text-center text-sm font-medium text-primary">
@@ -172,6 +176,7 @@ export function ReviewCard({
                 size="md"
                 font="sm_sb"
                 onClick={handleWriteReview}
+                disabled={isWriteButtonDisabled}
                 className="px-4 text-primary-normal02"
               >
                 리뷰쓰기
@@ -179,19 +184,12 @@ export function ReviewCard({
             </div>
           </div>
         ) : (
-          <ReviewContent
-            review={review}
-            type={type}
-            fieldConfigs={fieldConfigs}
-            isExpanded={isExpanded}
-            onToggleExpand={() => setIsExpanded(!isExpanded)}
-            limitItems={limitItems}
-          />
+          <ReviewContent {...reviewContentProps} />
         )}
 
         <div className="flex justify-end">
           <ReviewActions
-            likeCount={localLikeCount}
+            likeCount={likeCount}
             onLike={handleOptimisticLike}
             isPending={isPending}
             isLiked={localIsLiked}

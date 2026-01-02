@@ -14,12 +14,15 @@ const SCHOOL_DEFAULT_NAME = "";
 export default function ReviewPanel() {
   const { id: kindergartenId } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
-  const type = searchParams.get("type") || REVIEW_TYPES.WORK;
-  const sortType =
-    (searchParams.get("sortType") as SortType) || SortType.LATEST;
   const navigate = useNavigate();
 
+  const type = searchParams.get("type") || REVIEW_TYPES.WORK;
+
+  const sortType =
+    (searchParams.get("sortType") as SortType) || SortType.LATEST;
+
   const safeKindergartenId = kindergartenId || "unknown";
+
   const { data: kindergartenData } = useKindergartenName(safeKindergartenId);
 
   const { schoolOptions, fieldConfigs, reviewData, currentPath, isDisabled } =

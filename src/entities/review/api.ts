@@ -7,36 +7,48 @@ import { SortType } from "./DTO.d";
 
 import type {
   InternshipReview,
-  InternshipReviewResponse,
   LikeResponse,
   PaginatedReviewResponse,
   ReviewQueryParams,
   WorkReview,
-  WorkReviewResponse,
 } from "./DTO.d";
 
 // ------------------------------------------------------------------------------
 
 export const getWorkReviews = async (
   kindergartenId: number,
-  sortType?: SortType
-) => {
-  const queryParams = sortType ? `?sortType=${sortType}` : "";
-  return apiCall<null, WorkReviewResponse>({
+  params?: ReviewQueryParams
+): Promise<PaginatedReviewResponse<WorkReview>> => {
+  const { page = 0, size = 10, sortType = SortType.LATEST } = params || {};
+
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    sortType: sortType.toString(),
+  });
+
+  return apiCall<null, PaginatedReviewResponse<WorkReview>>({
     method: "GET",
-    path: API_PATHS.WORK.GET(kindergartenId) + queryParams,
+    path: `${API_PATHS.WORK.GET(kindergartenId)}?${queryParams.toString()}`,
     withAuth: true,
   });
 };
 
 export const getInternshipReviews = async (
   kindergartenId: number,
-  sortType?: SortType
-) => {
-  const queryParams = sortType ? `?sortType=${sortType}` : "";
-  return apiCall<null, InternshipReviewResponse>({
+  params?: ReviewQueryParams
+): Promise<PaginatedReviewResponse<InternshipReview>> => {
+  const { page = 0, size = 10, sortType = SortType.LATEST } = params || {};
+
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    sortType: sortType.toString(),
+  });
+
+  return apiCall<null, PaginatedReviewResponse<InternshipReview>>({
     method: "GET",
-    path: API_PATHS.INTERNSHIP.GET(kindergartenId) + queryParams,
+    path: `${API_PATHS.INTERNSHIP.GET(kindergartenId)}?${queryParams.toString()}`,
     withAuth: true,
   });
 };

@@ -1,5 +1,9 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 
+import { DYNAMIC_CACHE_CONFIG } from "@/shared/config/query";
 import { REVIEW_TYPES } from "@/shared/constants/review";
 import { safeParseId } from "@/shared/utils/idValidation";
 
@@ -39,7 +43,7 @@ export const useWorkReviews = (kindergartenId: string, sortType?: SortType) => {
       if (!numericId) {
         return Promise.resolve({ content: [], totalPages: 0 });
       }
-      return getWorkReviews(numericId, sortType);
+      return getWorkReviews(numericId, { sortType });
     },
   });
 };
@@ -62,7 +66,7 @@ export const useInternshipReviews = (
       if (!numericId) {
         return Promise.resolve({ content: [], totalPages: 0 });
       }
-      return getInternshipReviews(numericId, sortType);
+      return getInternshipReviews(numericId, { sortType });
     },
   });
 };
@@ -87,7 +91,7 @@ export function useGetReview(
       if (!numericId) {
         return Promise.resolve({ content: [], totalPages: 0 });
       }
-      return getWorkReviews(numericId, sortType);
+      return getWorkReviews(numericId, { sortType });
     },
   });
 
@@ -97,7 +101,7 @@ export function useGetReview(
       if (!numericId) {
         return Promise.resolve({ content: [], totalPages: 0 });
       }
-      return getInternshipReviews(numericId, sortType);
+      return getInternshipReviews(numericId, { sortType });
     },
   });
 
@@ -167,3 +171,77 @@ export function useGetReview(
     scores,
   };
 }
+
+// ------------------------------------------------------------------------------
+
+/**
+ * 특정 유치원의 근무 리뷰 무한 스크롤 훅
+ */
+export const useInfiniteWorkReviews = (
+  kindergartenId: string,
+  sortType?: SortType,
+  pageSize: number = 10
+) => {
+  const numericId = safeParseId(kindergartenId);
+
+  return useSuspenseInfiniteQuery({
+    queryKey: ["workReviews", kindergartenId, sortType, "infinite", pageSize],
+    queryFn: ({ pageParam = 0 }) => {
+      if (!numericId) {
+        return Promise.resolve({ content: [], totalPages: 0 });
+      }
+      return getWorkReviews(numericId, {
+        page: pageParam as number,
+        size: pageSize,
+        sortType,
+      });
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage?.content || lastPage.content.length === 0) return undefined;
+      const currentPage = allPages.length - 1;
+      const isLastPage = currentPage + 1 >= lastPage.totalPages;
+      return isLastPage ? undefined : currentPage + 1;
+    },
+    initialPageParam: 0,
+    ...DYNAMIC_CACHE_CONFIG,
+  });
+};
+
+/**
+ * 특정 유치원의 실습 리뷰 무한 스크롤 훅
+ */
+export const useInfiniteInternshipReviews = (
+  kindergartenId: string,
+  sortType?: SortType,
+  pageSize: number = 10
+) => {
+  const numericId = safeParseId(kindergartenId);
+
+  return useSuspenseInfiniteQuery({
+    queryKey: [
+      "internshipReviews",
+      kindergartenId,
+      sortType,
+      "infinite",
+      pageSize,
+    ],
+    queryFn: ({ pageParam = 0 }) => {
+      if (!numericId) {
+        return Promise.resolve({ content: [], totalPages: 0 });
+      }
+      return getInternshipReviews(numericId, {
+        page: pageParam as number,
+        size: pageSize,
+        sortType,
+      });
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage?.content || lastPage.content.length === 0) return undefined;
+      const currentPage = allPages.length - 1;
+      const isLastPage = currentPage + 1 >= lastPage.totalPages;
+      return isLastPage ? undefined : currentPage + 1;
+    },
+    initialPageParam: 0,
+    ...DYNAMIC_CACHE_CONFIG,
+  });
+};

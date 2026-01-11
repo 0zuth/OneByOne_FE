@@ -10,7 +10,7 @@ const workRatingConfigs: RatingFieldConfig[] = [
   { key: "workLabel", label: "워라벨" },
   { key: "atmosphere", label: "분위기" },
   { key: "manager", label: "관리자" },
-  { key: "customer", label: "고객" },
+  { key: "customer", label: "학급 운영" },
 ];
 
 const workReviewConfigs: ReviewFieldConfig[] = [
@@ -18,7 +18,7 @@ const workReviewConfigs: ReviewFieldConfig[] = [
   { key: "workLabel", label: "워라벨" },
   { key: "atmosphere", label: "분위기" },
   { key: "manager", label: "관리자" },
-  { key: "customer", label: "고객" },
+  { key: "customer", label: "학급 운영" },
 ];
 
 // 실습 리뷰

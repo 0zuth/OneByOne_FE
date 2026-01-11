@@ -7,6 +7,7 @@ import {
 } from "@/shared/ui/form";
 import Textarea from "@/shared/ui/form/textarea";
 import { BoxRatingGroup } from "@/shared/ui/rating/box-rating";
+import ToolTip from "@/shared/ui/tool-tip";
 
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
@@ -17,6 +18,7 @@ interface ScoredCommentFieldProps<TFieldValues extends FieldValues> {
   label: string;
   showCounter?: boolean;
   maxLength?: number;
+  tooltipText?: string;
 }
 
 export default function ScoredCommentField<TFieldValues extends FieldValues>({
@@ -26,6 +28,7 @@ export default function ScoredCommentField<TFieldValues extends FieldValues>({
   label,
   showCounter = false,
   maxLength,
+  tooltipText,
 }: ScoredCommentFieldProps<TFieldValues>) {
   return (
     <div className="flex flex-col gap-2">
@@ -38,6 +41,11 @@ export default function ScoredCommentField<TFieldValues extends FieldValues>({
               <FormLabel className="text-base font-semibold text-primary-dark01">
                 {label}에 대해서 알려주세요
               </FormLabel>
+              {tooltipText && (
+                <div className="my-auto ml-2 mr-auto">
+                  <ToolTip>{tooltipText}</ToolTip>
+                </div>
+              )}
               {showCounter && typeof field.value === "string" && maxLength && (
                 <span className="text-xs font-semibold text-primary-normal02">
                   *{field.value.length}/{maxLength}자{" "}

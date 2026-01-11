@@ -13,7 +13,7 @@ export interface WorkReviewFormValues {
   workType?: string;
   oneLineComment: string;
 
-  // 2 step: 복지/급여, 워라벨, 관리자, 고객
+  // 2 step: 복지/급여, 워라벨, 관리자, 학급 운영
   benefitAndSalaryComment: string;
   benefitAndSalaryScore: number;
   workLifeBalanceComment: string;
@@ -99,7 +99,8 @@ export default function WorkReviewForm({ form, step }: WorkReviewFormProps) {
           control={form.control}
           commentName="customerComment"
           scoreName="customerScore"
-          label="고객"
+          label="학급 운영"
+          tooltipText="행사, 학급 운영 방식, 유아 관리, 학부모와의 소통 등 해당 기관에 근무하면서 겪은 운영 경험을 공유하는 항목입니다."
           showCounter
           maxLength={REVIEW_COMMENT_MAX_LENGTH}
         />

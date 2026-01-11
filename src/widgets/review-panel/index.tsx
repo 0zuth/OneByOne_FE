@@ -3,8 +3,10 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useKindergartenName } from "@/entities/kindergarten/hooks";
 import { SortType } from "@/entities/review/DTO.d";
 import NavBar from "@/features/nav/ui/NavBar";
+import AutoFetchSentinel from "@/shared/components/AutoFetchSentinel";
 import { REVIEW_TYPES } from "@/shared/constants/review";
 import PostButton from "@/shared/ui/buttons/post-button";
+import LoadingSpinner from "@/shared/ui/loading/loading-spinner";
 import ReviewList from "@/widgets/review-list";
 import { useReviewPage } from "@/widgets/review-panel/lib/useReviewPage";
 import TotalRatingSection from "@/widgets/review-panel/ui/TotalRatingSection";
@@ -25,8 +27,16 @@ export default function ReviewPanel() {
 
   const { data: kindergartenData } = useKindergartenName(safeKindergartenId);
 
-  const { schoolOptions, fieldConfigs, reviewData, currentPath, isDisabled } =
-    useReviewPage(safeKindergartenId, type, sortType);
+  const {
+    schoolOptions,
+    fieldConfigs,
+    reviewData,
+    currentPath,
+    isDisabled,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useReviewPage(safeKindergartenId, type, sortType);
 
   const kindergartenName = kindergartenData?.name || SCHOOL_DEFAULT_NAME;
 
@@ -54,6 +64,14 @@ export default function ReviewPanel() {
         kindergartenName={kindergartenName}
         initialSortType={sortType}
       />
+      {hasNextPage && (
+        <AutoFetchSentinel
+          hasNext={!!hasNextPage}
+          loading={!!isFetchingNextPage}
+          fetchNext={() => fetchNextPage()}
+        />
+      )}
+      {isFetchingNextPage && <LoadingSpinner type="element" />}
       <PostButton
         onClick={handleWriteReview}
         label="리뷰쓰기"

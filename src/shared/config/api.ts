@@ -41,6 +41,7 @@ export const API_PATHS = {
       DETAIL: (id: number) => `/community/${id}`,
       LIKE: (id: number) => `/community/${id}/like`,
       TOP: "/community/top",
+      POPULAR: "/community/popular",
       DELETE: (id: number) => `/community/${id}`,
     },
     COMMENT: {

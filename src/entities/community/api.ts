@@ -10,15 +10,26 @@ import {
   LikeStatusRequest,
   LikeStatusResponse,
   PopularPostsResponse,
+  PopularPostsByPeriodResponse,
 } from "./DTO";
 
 /**
- * 인기 게시글 조회
+ * 인기 게시글 조회 (기존)
  */
 export const getPopularPosts = async (): Promise<PopularPostsResponse> => {
   return apiCall<void, PopularPostsResponse>({
     method: "GET",
     path: API_PATHS.COMMUNITY.POST.TOP,
+  });
+};
+
+/**
+ * 인기 게시글 조회 (주간/월간/전체)
+ */
+export const getPopularPostsByPeriod = async (): Promise<PopularPostsByPeriodResponse> => {
+  return apiCall<void, PopularPostsByPeriodResponse>({
+    method: "GET",
+    path: API_PATHS.COMMUNITY.POST.POPULAR,
   });
 };
 

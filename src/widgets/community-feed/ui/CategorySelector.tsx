@@ -16,7 +16,7 @@ export default function CategorySelector({
 }: CategorySelectorProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
-  const currentCategory = searchParams.get("category") || "top10";
+  const currentCategory = searchParams.get("category") || "all";
 
   const handleCategoryChange = (category: string) => {
     if (category === currentCategory) return;
@@ -34,22 +34,16 @@ export default function CategorySelector({
     });
 
     // 카테고리 변경 시 데이터 재조회
-    if (category === "all" || category !== "top10") {
-      const queryParams = {
-        pageSize: 10,
-        category: type === "teacher" ? "TEACHER" : "PROSPECTIVE_TEACHER",
-        categoryName: category !== "all" ? category : undefined,
-      };
+    const queryParams = {
+      pageSize: 10,
+      category: type === "teacher" ? "TEACHER" : "PROSPECTIVE_TEACHER",
+      categoryName: category !== "all" ? category : undefined,
+    };
 
-      queryClient.refetchQueries({
-        queryKey: ["communityPosts", queryParams],
-        exact: false,
-      });
-    } else if (category === "top10") {
-      queryClient.refetchQueries({
-        queryKey: ["popularPosts"],
-      });
-    }
+    queryClient.refetchQueries({
+      queryKey: ["communityPosts", queryParams],
+      exact: false,
+    });
   };
 
   return (

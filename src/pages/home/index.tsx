@@ -53,7 +53,7 @@ export default function HomePage() {
       <section className="mx-5">
         <img
           src={IMAGE_PATHS.BANNER.COMMUNITY}
-          alt="리뷰 배너"
+          alt="커뮤니티 배너"
           width={335}
           height={104}
           className="h-full w-full rounded-lg object-cover"

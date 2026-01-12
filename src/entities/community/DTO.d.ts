@@ -91,10 +91,21 @@ export interface CommunityPostDetailResponse {
   message: string;
 }
 
-// 인기 게시글 TOP 10
+// 인기 게시글 TOP 10 (기존)
 export interface PopularPostsResponse {
   success: boolean;
   data: CommunityPostItem[];
+  message: string;
+}
+
+// 인기 게시글 주간/월간/전체
+export interface PopularPostsByPeriodResponse {
+  success: boolean;
+  data: {
+    weekly: CommunityPostItem[];
+    monthly: CommunityPostItem[];
+    all: CommunityPostItem[];
+  };
   message: string;
 }
 

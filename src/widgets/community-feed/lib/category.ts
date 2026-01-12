@@ -18,6 +18,16 @@ export interface CategoryInfo {
 // 커뮤니티 카테고리 아이콘
 export const CATEGORY_ICONS = [
   {
+    href: "/community?type=popular",
+    label: "인기글",
+    icon: {
+      path: SVG_PATHS.KINDERGARTEN_INFO.CHART,
+      alt: "인기글 아이콘",
+      width: 32,
+      height: 32,
+    },
+  },
+  {
     href: "/community?type=teacher",
     label: "교사",
     icon: {
@@ -45,7 +55,6 @@ export const CATEGORY_INFO: Record<CommunityCategoryType, CategoryInfo> = {
     name: "교사",
     description: "교사 커뮤니티",
     categories: [
-      { value: "top10", label: "Top 10" },
       { value: "all", label: "전체" },
       { value: "free", label: "자유" },
       { value: "salary", label: "월급/취업" },
@@ -63,7 +72,6 @@ export const CATEGORY_INFO: Record<CommunityCategoryType, CategoryInfo> = {
     name: "예비교사",
     description: "예비교사 커뮤니티",
     categories: [
-      { value: "top10", label: "Top 10" },
       { value: "all", label: "전체" },
       { value: "university", label: "대학생활" },
       { value: "practice", label: "실습" },

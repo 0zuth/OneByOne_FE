@@ -1,13 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 
-import { usePopularPosts } from "@/entities/community/hooks";
+import { usePopularPostsByPeriod } from "@/entities/community/hooks";
 import Empty from "@/shared/ui/layout/empty";
 import { getCategoryLabel } from "@/shared/utils/categoryUtils";
 import PostCard from "@/widgets/community-feed/post-list/ui/PostCard";
 
-export default function PopularPostList() {
-  const { data: popularPostsData } = usePopularPosts();
-  const posts = popularPostsData?.data || [];
+type PeriodType = "weekly" | "monthly" | "all";
+
+const PERIOD_LABELS = {
+  weekly: "주간",
+  monthly: "월간",
+  all: "전체",
+} as const;
+
+interface PopularPostListProps {
+  period: PeriodType;
+}
+
+export default function PopularPostList({ period }: PopularPostListProps) {
+  const { data: popularPostsData } = usePopularPostsByPeriod();
+  const posts = popularPostsData?.data[period] || [];
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const firstCardRef = useRef<HTMLLIElement | null>(null);
 
@@ -33,8 +45,9 @@ export default function PopularPostList() {
     <>
       {posts.length === 0 ? (
         <Empty
-          title="게시글이 없습니다."
-          subTitle="첫 번째 게시글을 작성해보세요!"
+          title={`${PERIOD_LABELS[period]} 인기 게시글이 없어요`}
+          subTitle="첫 번째로 게시글을 작성해보세요!"
+          type="element"
         />
       ) : (
         <ul className="flex flex-col gap-5">

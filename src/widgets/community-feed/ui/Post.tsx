@@ -6,6 +6,7 @@ import { SVG_PATHS } from "@/shared/constants/assets-path";
 import { URL_PATHS } from "@/shared/constants/url-path";
 import AlertCard from "@/shared/ui/alert/alert-card";
 import Badge from "@/shared/ui/badge";
+import ReviewWriterBadge from "@/shared/ui/badge/ReviewWriterBadge";
 import LikeToggle from "@/shared/ui/buttons/like-toggle";
 import ShareButton from "@/shared/ui/buttons/share-button";
 import UserActionDropDown from "@/shared/ui/drop-down/report-drop-down";
@@ -44,9 +45,12 @@ export default function Post({
           <div className="flex items-center gap-2.5">
             <ProfileImage size="sm" role={post.userRole} />
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-primary-dark02">
-                {post.userNickname}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-semibold text-primary-dark02">
+                  {post.userNickname}
+                </span>
+                <ReviewWriterBadge hasWrittenReview={post.hasWrittenReview} />
+              </div>
               <ul className="flex gap-1 text-xxs text-primary-normal03">
                 {post.userRole === "PROSPECTIVE_TEACHER" ? null : (
                   <>

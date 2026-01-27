@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { CommunityPostItem } from "@/entities/community/DTO.d";
 import { SVG_PATHS } from "@/shared/constants/assets-path";
 import Badge from "@/shared/ui/badge";
+import ReviewWriterBadge from "@/shared/ui/badge/ReviewWriterBadge";
 import UserActionDropDown from "@/shared/ui/drop-down/report-drop-down";
 import { formatDate } from "@/shared/utils/dateUtils";
 
@@ -84,11 +85,12 @@ export default function PostCard({
               <span>{post.viewCount}</span>
             </div>
           </div>
-          <div>
+          <div className="flex items-center gap-1">
             <span className="ml-4 line-clamp-1">
-              {post.userNickname || "알 수 없는 사용자"} ·{" "}
-              {formatDate(post.createdAt)}
+              {post.userNickname || "알 수 없는 사용자"}
             </span>
+            <ReviewWriterBadge hasWrittenReview={post.hasWrittenReview} />
+            <span> · {formatDate(post.createdAt)}</span>
           </div>
         </div>
       </div>

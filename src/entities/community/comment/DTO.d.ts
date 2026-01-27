@@ -14,6 +14,7 @@ export interface CommentItem {
   email: string;
   nickName: string;
   userRole: UserRole;
+  hasWrittenReview?: boolean;
   createdAt: string;
   status: CommentStatus;
   parentId?: number | null;

@@ -1,6 +1,7 @@
 import type { CommentItem } from "@/entities/community/comment/DTO.d";
 import ProfileImage from "@/features/user-profile/ProfileImage";
 import Badge from "@/shared/ui/badge";
+import ReviewWriterBadge from "@/shared/ui/badge/ReviewWriterBadge";
 import { getUserRoleLabel } from "@/shared/utils/getUserRoleLabel";
 
 interface ReplyCardProps {
@@ -20,6 +21,7 @@ export default function CommentUserInfo({ reply, postAuthor }: ReplyCardProps) {
             <span className="text-sm font-semibold text-primary-dark02">
               {reply.nickName}
             </span>
+            <ReviewWriterBadge hasWrittenReview={reply.hasWrittenReview} />
             {isAuthor && (
               <Badge font="xxs" className="border border-primary-normal01">
                 작성자

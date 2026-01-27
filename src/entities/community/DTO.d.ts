@@ -32,6 +32,7 @@ export interface CommunityPostItem {
   userRole: "TEACHER" | "PROSPECTIVE_TEACHER" | "ADMIN";
   userEmail: string;
   career: string | null;
+  hasWrittenReview?: boolean;
   viewCount: number;
   likeCount: number;
   commentCount: number;
